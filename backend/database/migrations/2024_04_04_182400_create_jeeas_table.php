@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('course');
             $table->string('branch');
 
-            $table->string('email_username');
+            $table->string('email_username')->unique();
             $table->bigInteger('email_password');
 
             $table->float('fee_amount');
