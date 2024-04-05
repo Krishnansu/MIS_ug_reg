@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_education_details', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->string('name_of_examination_10');
             $table->string('university_board_10');
             $table->integer('year_10');

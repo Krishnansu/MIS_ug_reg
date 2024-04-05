@@ -10,6 +10,7 @@ class Temp_other_details extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'name_in_hindi',
         'marital_status',
         'kashmiri_immigrant',

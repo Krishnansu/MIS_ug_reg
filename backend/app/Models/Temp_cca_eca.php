@@ -10,6 +10,7 @@ class Temp_cca_eca extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'cca_sports',
         'eca_sports',
         'major_game',

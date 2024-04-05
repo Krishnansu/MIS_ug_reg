@@ -14,7 +14,7 @@ return new class extends Migration
             Schema::create('ug_regs', function (Blueprint $table) {
             $table->id();
 
-            $table->string('email_username');
+            $table->string('college_email');
             // $table->foreign('email_username')->references('email_username')->on('jeeas');
             
             $table->string('cca_sports');

@@ -10,6 +10,7 @@ class Temp_education_details extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'name_of_examination_10',
         'university_board_10',
         'year_10',

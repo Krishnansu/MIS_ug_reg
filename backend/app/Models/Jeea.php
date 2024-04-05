@@ -28,7 +28,7 @@ class Jeea extends Model
         'course',
         'branch',
         'email_username', 
-        // 'email_password',
+        'email_password',
         'fee_amount',
         'fee_date',
         'fee_mode',

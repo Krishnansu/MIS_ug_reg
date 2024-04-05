@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_parent_details', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->string('father_name');
             $table->string('mother_name');
             $table->string('father_occupation');

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_cca_ecas', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->string('cca_sports');
             $table->string('eca_sports');
             $table->string('major_game');

@@ -10,7 +10,7 @@ class Ug_reg extends Model
     use HasFactory;
 
     protected $fillable = [
-        'email_username', 
+        'college_email',
         'cca_sports',
         'eca_sports',
         'major_game',

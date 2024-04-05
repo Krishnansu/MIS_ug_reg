@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_personal_details', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->bigInteger('aadhar_number');
             $table->string('country');
             $table->string('state');

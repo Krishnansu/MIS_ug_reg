@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_other_details', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->string('name_in_hindi');
             $table->string('marital_status');
             $table->string('kashmiri_immigrant');

@@ -10,6 +10,7 @@ class Temp_parent_details extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'father_name',
         'mother_name',
         'father_occupation',

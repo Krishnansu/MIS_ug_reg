@@ -10,6 +10,7 @@ class Temp_hostel_details extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'food_habit',
         'laptop_details',
         'model_no',

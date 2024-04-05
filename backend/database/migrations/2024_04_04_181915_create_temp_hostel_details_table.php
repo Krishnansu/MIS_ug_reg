@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('temp_hostel_details', function (Blueprint $table) {
             $table->id();
+
+            $table->string('college_email');
+
             $table->string('food_habit');
             $table->string('laptop_details');
             $table->string('model_no');

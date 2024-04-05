@@ -10,6 +10,7 @@ class Temp_personal_details extends Model
     use HasFactory;
 
     protected $fillable = [
+        'college_email',
         'aadhar_number',
         'country',
         'state',
