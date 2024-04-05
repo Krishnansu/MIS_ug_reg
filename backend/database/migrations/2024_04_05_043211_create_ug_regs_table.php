@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ug_regs', function (Blueprint $table) {
+            Schema::create('ug_regs', function (Blueprint $table) {
             $table->id();
 
-            $table->foreign('email_username')->references('email_username')->on('jeea');
-
+            $table->string('email_username');
+            // $table->foreign('email_username')->references('email_username')->on('jeeas');
+            
             $table->string('cca_sports');
             $table->string('eca_sports');
             $table->string('major_game');

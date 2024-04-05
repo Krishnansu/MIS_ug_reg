@@ -10,7 +10,7 @@ class Jeea extends Model
     use HasFactory;
 
     //Relationship with Ug_reg
-    public function ug_reg() {
-        return $this->hasOne(Ug_reg::class, 'email_username');
-    }
+    // public function ug_reg() {
+    //     return $this->hasOne(Ug_reg::class, 'email_username');
+    // }
 }
