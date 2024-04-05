@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Temp_hostel_details extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'food_habit',
+        'laptop_details',
+        'model_no',
+        'serial_no'
+    ];
 }

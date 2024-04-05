@@ -17,9 +17,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'jee_main_application_no',
+        'registered_mob_no',
+        'registered_email_id',
     ];
 
     /**
@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'registered_mob_no',
         'remember_token',
     ];
 
@@ -40,8 +40,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'registered_mob_no' => 'hashed',
         ];
     }
 }
