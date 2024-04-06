@@ -40,6 +40,8 @@ class TempPersonalDetailController extends Controller
             $formFields['uploaded_signature'] = $request->file('uploaded_signature')->store('uploaded','public');
         }
 
+        $formFields['college_email'] = session('user.email');
+
         $personalDetail = Temp_personal_details::create($formFields);
         return response()->json($personalDetail, 201);
     }

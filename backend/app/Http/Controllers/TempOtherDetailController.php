@@ -18,7 +18,7 @@ class TempOtherDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $formFields = $request->validate([
             'name_in_hindi' => 'required|string|max:255', // Limit length
             'marital_status' => 'required|string',
             'kashmiri_immigrant' => 'required|string',
@@ -35,7 +35,9 @@ class TempOtherDetailController extends Controller
             'ifsc_code_of_student' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/', // Typical IFSC code format
         ]);
 
-        $otherDetail = Temp_other_details::create($request->all());
+        $formFields['college_email'] = session('user.email');
+
+        $otherDetail = Temp_other_details::create($formFields);
         return response()->json($otherDetail, 201);
     }
 

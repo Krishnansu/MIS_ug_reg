@@ -21,7 +21,7 @@ class TempParentDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $formFields = $request->validate([
             'father_name' => 'required|string|max:255', 
             'mother_name' => 'required|string|max:255', 
             'father_occupation' => 'required|string',
@@ -40,7 +40,9 @@ class TempParentDetailController extends Controller
             'ifsc_code_of_parent' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/', 
         ]);
 
-        $parentDetail = Temp_parent_details::create($request->all());
+        $formFields['college_email'] = session('user.email');
+
+        $parentDetail = Temp_parent_details::create($formFields);
         return response()->json($parentDetail, 201); 
     }
 

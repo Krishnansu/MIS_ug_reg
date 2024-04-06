@@ -61,9 +61,10 @@ class TempEducationDetailController extends Controller
             $formFields['uploaded_certificate_12'] = $request->file('uploaded_certificate_12')->store('uploaded','public');
         }
 
+        $formFields['college_email'] = session('user.email');
 
         $educationDetail = Temp_education_details::create($formFields);
-        return response()->json($formFields, 201);
+        return response()->json($educationDetail, 201);
     }
 
     /**

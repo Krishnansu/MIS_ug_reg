@@ -21,14 +21,16 @@ class TempHostelDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $formFields = $request->validate([
             'food_habit' => 'required|string',
             'laptop_details' => 'required|string',
             'model_no' => 'nullable|string',
             'serial_no' => 'nullable|string'
         ]);
 
-        $hostelDetail = Temp_hostel_details::create($request->all());
+        $formFields['college_email'] = session('user.email');
+
+        $hostelDetail = Temp_hostel_details::create($formFields);
         return response()->json($hostelDetail, 201);
     }
 
