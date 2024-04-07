@@ -7,45 +7,17 @@ use Illuminate\Http\Request;
 
 class TempHostelDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+
+
+    public function show()
     {
-        $hostelDetails = Temp_hostel_details::all();
-        return response()->json($hostelDetails);
+        $email=session('user.email');
+        $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
+        return response()->json($hostelDetail,200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $formFields = $request->validate([
-            'food_habit' => 'required|string',
-            'laptop_details' => 'required|string',
-            'model_no' => 'nullable|string',
-            'serial_no' => 'nullable|string'
-        ]);
-
-        $formFields['college_email'] = session('user.email');
-
-        $hostelDetail = Temp_hostel_details::create($formFields);
-        return response()->json($hostelDetail, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Temp_hostel_details $hostelDetail)
-    {
-        return response()->json($hostelDetail);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Temp_hostel_details $hostelDetail)
+    public function update(Request $request)
     {
         $request->validate([
             'food_habit' => 'required|string',
@@ -54,15 +26,21 @@ class TempHostelDetailController extends Controller
             'serial_no' => 'nullable|string'
         ]);
 
-        $hostelDetail->update($request->all());
-        return response()->json($hostelDetail, 200);
+
+        $hostelDetail = Temp_hostel_details::updateorCreate(
+            ['college_email' => $email=session('user.email')], // Match by college_email
+            $request->all() 
+        );
+
+        return response()->json($hostelDetail, $hostelDetail->wasRecentlyCreated ? 201 : 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Temp_hostel_details $hostelDetail)
+    public function destroy()
     {
+
+        $email=session('user.email');
+        $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
+
         $hostelDetail->delete();
         return response()->json("Deleted Successfully", 200);
     }

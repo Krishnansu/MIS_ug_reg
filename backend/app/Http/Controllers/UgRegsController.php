@@ -14,17 +14,24 @@ use Illuminate\Http\Request;
 class UgRegsController extends Controller
 {
 
-    public function index()
+    // public function index()
+    // {
+    //     $ugRegistrations = Ug_reg::all(); // Retrieve all records
+    //     return response()->json($ugRegistrations);
+    // }
+
+    public function show()
     {
-        $ugRegistrations = Ug_reg::all(); // Retrieve all records
-        return response()->json($ugRegistrations);
+        $email=session('user.email');
+        $ugDetail = Ug_reg::where('college_email', $email)->firstOrFail();
+        return response()->json($ugDetail,200);
     }
 
     public function store(Request $request)
     {
         $collegeEmail = session('user.email');
 
-        // Retrieve data from temporary tables (assuming your other models exist)
+        // Retrieve data from temporary tables 
         $otherDetails = Temp_other_details::where('college_email', $collegeEmail)->firstOrFail();
         $parentDetails = Temp_parent_details::where('college_email', $collegeEmail)->firstOrFail();
         $educationDetails = Temp_education_details::where('college_email', $collegeEmail)->firstOrFail();
@@ -45,5 +52,7 @@ class UgRegsController extends Controller
         ]);
 
         return response()->json($ugRegistration, 201); 
+
+        
     }
 }

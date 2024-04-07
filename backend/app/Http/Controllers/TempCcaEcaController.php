@@ -7,42 +7,16 @@ use Illuminate\Http\Request;
 
 class TempCcaEcaController extends Controller
 {
-    public function index()
+
+    public function show() 
     {
-        $ccaEcas = Temp_cca_eca::all();
-        return response()->json($ccaEcas);
+        $email=session('user.email');
+        $ccaEca = Temp_cca_eca::where('college_email', $email)->firstOrFail();
+        return response()->json($ccaEca,200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $formFields = $request->validate([
-            'cca_sports' => 'required',
-            'eca_sports' => 'required',
-            'major_game' => 'required',
-            'minor_game' => 'required'
-        ]);
 
-        $formFields['college_email'] = session('user.email');
-
-        $ccaEca = Temp_cca_eca::create($formFields);
-        return response()->json($ccaEca, 201); 
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Temp_cca_eca $ccaEca) 
-    {
-        return response()->json($ccaEca);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Temp_cca_eca $ccaEca)
+    public function update(Request $request)
     {
         $request->validate([
             'cca_sports' => 'required',
@@ -51,16 +25,23 @@ class TempCcaEcaController extends Controller
             'minor_game' => 'required'
         ]);
         
-        $ccaEca->update($request->all());
-        return response()->json($ccaEca, 200); 
+        
+        $ccaEca = Temp_cca_eca::updateorCreate(
+            ['college_email' => $email=session('user.email')], // Match by college_email
+            $request->all() // Set all fields 
+        );
+
+        return response()->json($ccaEca, $ccaEca->wasRecentlyCreated ? 201 : 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Temp_cca_eca $ccaEca)
+
+    public function destroy()
     {
+
+        $email=session('user.email');
+        $ccaEca = Temp_cca_eca::where('college_email', $email)->firstOrFail();
+
         $ccaEca->delete();
-        return response()->json("Successfully Deleted", 200); 
+        return response()->json("Deleted Successfully", 200);
     }
 }

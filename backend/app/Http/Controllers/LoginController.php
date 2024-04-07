@@ -13,7 +13,7 @@ class LoginController extends Controller
     {
         $formFields = $request->validate([
             'registered_email_id' => 'required|email', 
-            'registered_mob_no' => 'required' // Assuming you're using mobile number as a 'password'
+            'registered_mob_no' => 'required' 
         ]);
 
         $credentials = $request->only('registered_email_id', 'registered_mob_no');
