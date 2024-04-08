@@ -4,25 +4,28 @@ const baseURL = 'http://localhost:8000/api'; // Replace with your API base URL
 
 const apiClient = axios.create({
     baseURL,
-    // withCredentials: true, // Include cookies if needed for authentication
+    withCredentials: true, // Include cookies if needed for authentication
+    headers: {
+        'Authorization': `Bearer  ${localStorage.getItem('authToken')}`  
+    }                                                                           //ensure that you store token in local storage
+                                                                                // localStorage.setItem('authToken', token);
 });
 
-// Assuming you have token-based authentication and store the token in 'authToken'
-// apiClient.interceptors.request.use(config => {
-//     const authToken = localStorage.getItem('authToken'); // Adjust based on your storage 
-//     if (authToken) {
-//         config.headers.Authorization = `Bearer ${authToken}`;
-//     }
-//     return config;
-// });
+const loginClient = axios.create({
+    baseURL,
+    withCredentials: true  // May be needed depending on your authentication setup
+});
 
-export const loginUser = (data) => apiClient.post('/login', data); 
+
+export const loginUser = (data) => loginClient.post('/login', data); 
 export const logoutUser = () => apiClient.post('/logout');
 
 export const getJeea = () => apiClient.get(`/jeeas`);
 
 
-export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`);
+export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`,{headers: {
+    'Authorization': `Bearer ${localStorage.getItem('authToken')}`  
+}});
 export const createOrUpdateCcaEca = (data) => apiClient.post(`/temp-cca-ecas`, data);
 export const deleteCcaEca = () => apiClient.delete(`/temp-cca-ecas`);
 
