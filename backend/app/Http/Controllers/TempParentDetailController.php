@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Temp_parent_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TempParentDetailController extends Controller
 {
    
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $parentDetail = Temp_parent_details::where('college_email', $email)->firstOrFail();
         return response()->json($parentDetail,200);
     }
@@ -37,8 +41,11 @@ class TempParentDetailController extends Controller
         ]);
 
 
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
+
         $parentDetail = Temp_parent_details::updateorCreate(
-            ['college_email' => $email=session('user.email')], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $request->all() 
         );
 
@@ -47,7 +54,9 @@ class TempParentDetailController extends Controller
 
     public function destroy()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $parentDetail = Temp_parent_details::where('college_email', $email)->firstOrFail();
 
         $parentDetail->delete();

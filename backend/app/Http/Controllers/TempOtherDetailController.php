@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Temp_other_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TempOtherDetailController extends Controller
 {
     
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $otherDetail = Temp_other_details::where('college_email', $email)->firstOrFail();
         return response()->json($otherDetail);
     }
@@ -34,10 +38,13 @@ class TempOtherDetailController extends Controller
             'ifsc_code_of_student' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/', // Typical IFSC code format
         ]);
 
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
+
 
 
         $otherDetail = Temp_other_details::updateorCreate(
-            ['college_email' => $email=session('user.email')], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $request->all() 
         );
 
@@ -47,7 +54,10 @@ class TempOtherDetailController extends Controller
 
     public function destroy()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $otherDetail = Temp_other_details::where('college_email', $email)->firstOrFail();
 
         $otherDetail->delete();

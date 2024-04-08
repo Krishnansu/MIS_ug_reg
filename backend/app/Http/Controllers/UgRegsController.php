@@ -10,6 +10,7 @@ use App\Models\Temp_parent_details;
 use App\Models\Temp_personal_details;
 use App\Models\Ug_reg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UgRegsController extends Controller
 {
@@ -22,14 +23,20 @@ class UgRegsController extends Controller
 
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $ugDetail = Ug_reg::where('college_email', $email)->firstOrFail();
         return response()->json($ugDetail,200);
     }
 
     public function store(Request $request)
     {
-        $collegeEmail = session('user.email');
+        // $collegeEmail = session('user.email');
+
+        $user = Auth::user(); 
+        $collegeEmail = $user -> registered_email_id;
 
         // Retrieve data from temporary tables 
         $otherDetails = Temp_other_details::where('college_email', $collegeEmail)->firstOrFail();

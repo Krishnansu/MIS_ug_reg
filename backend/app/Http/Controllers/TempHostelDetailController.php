@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Temp_hostel_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TempHostelDetailController extends Controller
 {
@@ -12,7 +13,9 @@ class TempHostelDetailController extends Controller
 
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
         return response()->json($hostelDetail,200);
     }
@@ -26,9 +29,12 @@ class TempHostelDetailController extends Controller
             'serial_no' => 'nullable|string'
         ]);
 
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
+
 
         $hostelDetail = Temp_hostel_details::updateorCreate(
-            ['college_email' => $email=session('user.email')], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $request->all() 
         );
 
@@ -38,7 +44,10 @@ class TempHostelDetailController extends Controller
     public function destroy()
     {
 
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
 
         $hostelDetail->delete();

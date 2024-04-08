@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jeea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JeeaController extends Controller
 {
@@ -18,7 +19,11 @@ class JeeaController extends Controller
     // Show (Fetch single record)
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
+
         $jeea = Jeea::where('email_username', $email)->firstOrFail();
         return response()->json($jeea,200);
     }

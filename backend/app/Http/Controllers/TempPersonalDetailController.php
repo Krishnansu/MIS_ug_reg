@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Temp_personal_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TempPersonalDetailController extends Controller
 {
     
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $personalDetail = Temp_personal_details::where('college_email', $email)->firstOrFail();
         return response()->json($personalDetail,200);
 
@@ -40,9 +44,12 @@ class TempPersonalDetailController extends Controller
             $formFields['uploaded_signature'] = $request->file('uploaded_signature')->store('uploaded','public');
         }
 
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
+
 
         $personalDetail = Temp_personal_details::updateorCreate(
-            ['college_email' => $email=session('user.email')], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $formFields 
         );
 
@@ -55,7 +62,10 @@ class TempPersonalDetailController extends Controller
     public function destroy()
     {
 
-        $email=session('user.email');
+        // $email=session('user.email');
+
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $personalDetail = Temp_personal_details::where('college_email', $email)->firstOrFail();
 
         $personalDetail->delete();

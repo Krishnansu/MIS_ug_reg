@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Temp_education_details;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TempEducationDetailController extends Controller
 {
@@ -19,7 +20,9 @@ class TempEducationDetailController extends Controller
  
     public function show()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $educationDetail = Temp_education_details::where('college_email', $email)->firstOrFail();
         return response()->json($educationDetail,200);
     }
@@ -62,10 +65,11 @@ class TempEducationDetailController extends Controller
             $formFields['uploaded_certificate_12'] = $request->file('uploaded_certificate_12')->store('uploaded','public');
         }
 
-
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
 
         $educationDetail = Temp_education_details::updateorCreate(
-            ['college_email' => $email=session('user.email')], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $formFields 
         );
 
@@ -75,7 +79,9 @@ class TempEducationDetailController extends Controller
 
     public function destroy()
     {
-        $email=session('user.email');
+        // $email=session('user.email');
+        $user = Auth::user(); 
+        $email = $user -> registered_email_id;
         $educationDetail = Temp_education_details::where('college_email', $email)->firstOrFail();
 
         $educationDetail->delete();

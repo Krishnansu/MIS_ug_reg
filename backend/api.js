@@ -19,8 +19,10 @@ const apiClient = axios.create({
 export const loginUser = (data) => apiClient.post('/login', data); 
 export const logoutUser = () => apiClient.post('/logout');
 
+export const getJeea = () => apiClient.get(`/jeeas`);
 
-export const getCcaEca = () => apiClient.get(`/temp-cca-ecas/`);
+
+export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`);
 export const createOrUpdateCcaEca = (data) => apiClient.post(`/temp-cca-ecas`, data);
 export const deleteCcaEca = () => apiClient.delete(`/temp-cca-ecas`);
 
@@ -50,4 +52,4 @@ export const createOrUpdateHostelDetail = (data) => apiClient.post(`/temp-hostel
 export const deleteHostelDetail = () => apiClient.delete(`/temp-hostel-details`);
 
 export const createUgRegistration = (data) => apiClient.post(`/ug-registrations`, data);
-export const fetchUgRegistrations = () => apiClient.get(`/ug-registrations`); 
+export const getUgRegistration = () => apiClient.get(`/ug-registrations`); 
