@@ -12,7 +12,6 @@ class TempCcaEcaController extends Controller
     public function show() 
     {
         // $email=session('user.email');
-        // return response()->json('Inside Backend',200);
         $user = Auth::user(); 
         $email = $user -> registered_email_id;
         $ccaEca = Temp_cca_eca::where('college_email', $email)->firstOrFail();
@@ -28,6 +27,8 @@ class TempCcaEcaController extends Controller
             'major_game' => 'required',
             'minor_game' => 'required'
         ]);
+        
+        // $email=session('user.email');
 
         $user = Auth::user(); 
         $email = $user -> registered_email_id;

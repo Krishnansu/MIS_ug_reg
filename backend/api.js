@@ -1,31 +1,21 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8000/api'; // Replace with your API base URL
+const baseURL = 'http://localhost:8000/api'; 
 
 const apiClient = axios.create({
     baseURL,
-    withCredentials: true, // Include cookies if needed for authentication
-    headers: {
-        'Authorization': `Bearer  ${localStorage.getItem('authToken')}`  
-    }                                                                           //ensure that you store token in local storage
-                                                                                // localStorage.setItem('authToken', token);
-});
-
-const loginClient = axios.create({
-    baseURL,
-    withCredentials: true  // May be needed depending on your authentication setup
+    withCredentials: true, 
+                                                                           
 });
 
 
-export const loginUser = (data) => loginClient.post('/login', data); 
+
+export const loginUser = (data) => apiClient.post('/login', data); 
 export const logoutUser = () => apiClient.post('/logout');
 
 export const getJeea = () => apiClient.get(`/jeeas`);
 
-
-export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`,{headers: {
-    'Authorization': `Bearer ${localStorage.getItem('authToken')}`  
-}});
+export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`);
 export const createOrUpdateCcaEca = (data) => apiClient.post(`/temp-cca-ecas`, data);
 export const deleteCcaEca = () => apiClient.delete(`/temp-cca-ecas`);
 

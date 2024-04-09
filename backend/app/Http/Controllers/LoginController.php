@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $formFields = $request->validate([
+        $request->validate([
             'registered_email_id' => 'required|email', 
             'registered_mob_no' => 'required' 
         ]);
@@ -22,23 +22,11 @@ class LoginController extends Controller
     
 
         if ($user && Hash::check($credentials['registered_mob_no'], $user->registered_mob_no)) {
-            // Auth::login($user,true); // Manually log the user in
-
-            
+            Auth::login($user,true); 
             // $request->session()->put('user.email', $user->registered_email_id);
             // $request->session()->put('user.jee_application_no', $user->jee_main_application_no);
+            return response()->json(['message' => 'Login successful', 'user_email' => $user->registered_email_id], 200);
 
-            //$request->session()->get('user.email')
-            //session('user.email')
-            // return response()->json(['message' => 'Login successful'], 200);
-
-            $token = $user->createToken('myapptoken')->plainTextToken; 
-
-
-            return response()->json([
-                'token' => $token,
-                'message' => 'Login successful'
-            ], 200);
         } else {
             return response()->json(['error' => 'Invalid credentials'], 401); // Unauthorized
         }
@@ -46,14 +34,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        // Invalidate the user's session (standard logout)
-        // $request->session()->invalidate();
-
-        // // Regenerate the session ID to further enhance security
-        // $request->session()->regenerateToken();
-
-        $request->user()->tokens()->delete();
-
+        Auth::logout();
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 }
