@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JeeaController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SportsCaaQuotaSeatsStockController;
 use App\Http\Controllers\TempCcaEcaController;
 use App\Http\Controllers\TempEducationDetailController;
 use App\Http\Controllers\TempHostelDetailController;
@@ -24,6 +25,12 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware('auth')->group(function () {       
     Route::get('/jeeas', [JeeaController::class, 'show']);     
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/sports-caa-seats', [SportsCaaQuotaSeatsStockController::class, 'index']);
+    Route::post('/sports-caa-seats/{id}/decrement', [SportsCaaQuotaSeatsStockController::class, 'decrementSeatCount']);
+});
+
 
 
 // CCA/ECA Records with auth middleware

@@ -23,9 +23,7 @@ class TempCcaEcaController extends Controller
     {
         $request->validate([
             'cca_sports' => 'required',
-            'eca_sports' => 'required',
-            'major_game' => 'required',
-            'minor_game' => 'required'
+            'eca_sports' => 'required'
         ]);
         
         // $email=session('user.email');

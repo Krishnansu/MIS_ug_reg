@@ -15,6 +15,9 @@ export const logoutUser = () => apiClient.post('/logout');
 
 export const getJeea = () => apiClient.get(`/jeeas`);
 
+export const getSportsCcaQuotaSeats = () => apiClient.get('/sports-caa-seats');
+export const decrementSeatCount = (id) => apiClient.post('/sports-caa-seats/${id}/decrement')
+
 export const getCcaEca = () => apiClient.get(`/temp-cca-ecas`);
 export const createOrUpdateCcaEca = (data) => apiClient.post(`/temp-cca-ecas`, data);
 export const deleteCcaEca = () => apiClient.delete(`/temp-cca-ecas`);
