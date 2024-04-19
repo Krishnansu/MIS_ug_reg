@@ -4,15 +4,7 @@ import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
-const StyledForm = styled(Form)({
-  maxWidth: '400px',
-  margin: '0 auto',
-  padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
-});
-import { Button, TextField, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+
 import customFetch from '../utils/customFetch';
 
 const StyledForm = styled(Form)({
@@ -23,22 +15,6 @@ const StyledForm = styled(Form)({
   borderRadius: '8px',
 });
 
-// export const action =
-//   (queryClient) =>
-//   async ({ request }) => {
-//     const formData = await request.formData();
-//     const data = Object.fromEntries(formData);
-//     try {
-//       await customFetch.post('/login', data);
-//       console.log(data);
-//       queryClient.invalidateQueries();
-//       toast.success('Login successful');
-//       return redirect('/dashboard');
-//     } catch (error) {
-//       toast.error(error?.response?.data?.msg);
-//       return error;
-//     }
-//   };
 
 const Login = () => {
   const navigation = useNavigation();
@@ -96,5 +72,5 @@ const Login = () => {
     </Wrapper>
   );
 };
-
-export default Login;
+}
+export default Login
