@@ -11,13 +11,18 @@ class TempHostelDetailController extends Controller
 
 
 
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
-        return response()->json($hostelDetail,200);
+        if(!$hostelDetail){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($hostelDetail,200);
+        }
     }
 
     public function update(Request $request)
@@ -32,22 +37,23 @@ class TempHostelDetailController extends Controller
         // $user = Auth::user(); 
         // $email = $user -> registered_email_id;
 
+        $email=$request->college_email;
 
         $hostelDetail = Temp_hostel_details::updateorCreate(
-            // ['college_email' => $email], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $request->all() 
         );
 
         return response()->json($hostelDetail, $hostelDetail->wasRecentlyCreated ? 201 : 200);
     }
 
-    public function destroy()
+    public function destroy($email)
     {
 
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $hostelDetail = Temp_hostel_details::where('college_email', $email)->firstOrFail();
 
         $hostelDetail->delete();

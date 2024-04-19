@@ -1,25 +1,12 @@
 // import React from 'react';
-import { Form, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import customFetch from '../utils/customFetch';
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
 
-  try {
-    // await customFetch.post('/auth/register', data);
-    console.log(data);
-    toast.success('Parent Details saved');
-    return redirect('/AddEducationDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-
-    return error;
-  }
-};
 
 const StyledForm = styled(Form)({
   width: '100vw',
@@ -32,12 +19,27 @@ const StyledForm = styled(Form)({
 
 const AddParentDetails = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append("college_email",localStorage.getItem("user_email"));
+    try {
+      await customFetch.post('/temp-parent-details', formData);
+      console.log(formData);
+      toast.success('saved Parent Details');
+      navigate('/AddEducationDetails'); // Using navigation to redirect
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   return (
     <Wrapper>
-      <StyledForm method="post" className="form">
+      <StyledForm method="post" className="form" onSubmit={handleSubmit}>
         <Typography variant="h4">Parent Details</Typography>
         <Grid container spacing={2}>
           

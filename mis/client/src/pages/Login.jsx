@@ -1,16 +1,6 @@
-import { Form, redirect, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
-import { Button, TextField, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-
-const StyledForm = styled(Form)({
-  maxWidth: '400px',
-  margin: '0 auto',
-  padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
-});
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
@@ -40,9 +30,31 @@ const StyledForm = styled(Form)({
 //     }
 //   };
 
+// const Login = () => {
+//   const navigation = useNavigation();
+//   const isSubmitting = navigation.state === 'submitting';
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     const formData = new FormData(event.target);
+//     const data = Object.fromEntries(formData);
+
+//     try {
+//       await customFetch.post('/login', data);
+//       console.log(data);
+//       localStorage.setItem('user_email', data.registered_email_id);
+//       toast.success('Login successful');
+//       redirect('/dashboard');
+//     } catch (error) {
+//       toast.error(error?.response?.data?.msg);
+//     }
+//   };
+
 const Login = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const navigation =useNavigation();
+  const navigate = useNavigate();
+  console.log(navigation);
+  const isSubmitting = navigation.state==='submitting';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,16 +66,11 @@ const Login = () => {
       console.log(data);
       localStorage.setItem('user_email', data.registered_email_id);
       toast.success('Login successful');
-      redirect('/dashboard');
+      navigate('/AddCcaEca');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
   };
-
-const Login = () => {
-  const navigation =useNavigation();
-  console.log(navigation);
-  const isSubmitting = navigation.state==='submitting';
   return (
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>

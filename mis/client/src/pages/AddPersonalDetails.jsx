@@ -1,8 +1,10 @@
-import { Form, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography ,Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/system';
+import customFetch from '../utils/customFetch';
+import { useState } from 'react';
 
 const StyledForm = styled(Form)({
   maxWidth: '400px',
@@ -12,36 +14,41 @@ const StyledForm = styled(Form)({
   borderRadius: '8px',
 });
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
 
-  try {
-    // await customFetch.post('/auth/register', data);
-    console.log(data);
-    toast.success('saved sports');
-    return redirect('/AddOtherDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-    return error;
-  }
-};
 
 const AddPersonalDetails = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
+
+  // const [selectedPhoto, setSelectedPhoto] = useState(null); // For uploaded_photo
+  // const [selectedSignature, setSelectedSignature] = useState(null);
+
+
+  // const handleFileChange1 = (event) => {
+  //   setSelectedPhoto(event.target.files[0]);
+  //   console.log(selectedPhoto);
+  // };
+
+  // const handleFileChange2 = (event) => {
+  //   setSelectedSignature(event.target.files[0]);
+  //   console.log(selectedSignature);
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
+    formData.append("college_email",localStorage.getItem("user_email"));
+    console.log(formData);
+    // const data = Object.fromEntries(formData);
+    // console.log(data);
 
     try {
-      // await customFetch.post('/auth/register', data);
-      console.log(data);
+      await customFetch.post('/temp-personal-details', formData);
+      // console.log(formData);
       toast.success('saved sports');
-      redirect('/AddOtherDetails');
+      navigate('/AddOtherDetails');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -49,7 +56,7 @@ const AddPersonalDetails = () => {
 
   return (
     <Wrapper>
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit} encType='multipart/form-data'>
         <Typography variant="h4">Personal Details</Typography>
         <TextField
           type="text"
@@ -161,7 +168,7 @@ const AddPersonalDetails = () => {
           type="number"
           name="aadhar_number"
           label="Aadhar Number"
-          defaultValue="21617637816"
+          defaultValue="216176378167"
           fullWidth
           margin="normal"
         />
@@ -262,23 +269,33 @@ const AddPersonalDetails = () => {
   </Select>
   </div>
   <TextField
-          type="text"
-          name="birth_place"
-          label="Birth Place"
-          defaultValue="Mumbai"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
+    type="text"
+    name="birth_place"
+    label="Birth Place"
+    defaultValue="Mumbai"
+    fullWidth
+    margin="normal"
+  />
+  {/* <TextField
+    type="file"
+    name="uploaded_photo"
+    fullWidth
+    margin="normal"
+    sx={{ display: 'block' }} // Display the TextField as a block element
+    InputLabelProps={{ shrink: true }} // Shrink the label to avoid collision
+    label="Uploaded photo"
+/> */}
+<input 
   type="file"
   name="uploaded_photo"
-  fullWidth
-  margin="normal"
-  sx={{ display: 'block' }} // Display the TextField as a block element
-  InputLabelProps={{ shrink: true }} // Shrink the label to avoid collision
-  label="Uploaded photo"
 />
-<TextField
+
+<input 
+  type="file"
+  name="uploaded_signature"
+/>
+
+{/* <TextField
   type="file"
   name="uploaded_signature"
   fullWidth
@@ -286,7 +303,7 @@ const AddPersonalDetails = () => {
   sx={{ display: 'block' }} // Display the TextField as a block element
   InputLabelProps={{ shrink: true }} // Shrink the label to avoid collision
   label="Uploaded signature"
-/>
+/> */}
 
         {/* Add more TextField components for other input fields */}
         <Button type="submit" disabled={isSubmitting} variant="contained">

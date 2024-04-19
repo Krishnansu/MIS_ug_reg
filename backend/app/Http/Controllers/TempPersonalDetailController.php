@@ -5,23 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Temp_personal_details;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TempPersonalDetailController extends Controller
 {
     
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $personalDetail = Temp_personal_details::where('college_email', $email)->firstOrFail();
-        return response()->json($personalDetail,200);
+        if(!$personalDetail){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($personalDetail,200);
+        }
 
     }
 
     public function update(Request $request)
     {
+        // Log::debug("Inside Controller");
+        // Log::debug($request);
+
         $formFields = $request->validate([
             'aadhar_number' => 'required|integer|digits:12',
             'country' => 'required|string',
@@ -36,16 +45,24 @@ class TempPersonalDetailController extends Controller
             'birth_place' => 'required|string',
         ]);
 
+        
+        // Log::debug("here");
         if($request->hasFile('uploaded_photo')){
             $formFields['uploaded_photo'] = $request->file('uploaded_photo')->store('uploaded','public');
+            // Log::debug($request->file('uploaded_photo'));
         }
 
         if($request->hasFile('uploaded_signature')){
             $formFields['uploaded_signature'] = $request->file('uploaded_signature')->store('uploaded','public');
+            // Log::debug($request->file('uploaded_signature'));
         }
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // Log::debug("There");
+
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
+
+        $email=$request->college_email;
 
 
         $personalDetail = Temp_personal_details::updateorCreate(
@@ -59,13 +76,13 @@ class TempPersonalDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy($email)
     {
 
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $personalDetail = Temp_personal_details::where('college_email', $email)->firstOrFail();
 
         $personalDetail->delete();

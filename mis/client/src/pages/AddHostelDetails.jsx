@@ -11,11 +11,12 @@
 
 
 // import React from 'react';
-import { Form, redirect, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography ,Select, MenuItem} from '@mui/material';
 import { styled  } from '@mui/system';
+import customFetch from '../utils/customFetch';
 
 const StyledForm = styled(Form)({
   // Add your custom CSS styles here for the form
@@ -26,38 +27,25 @@ const StyledForm = styled(Form)({
   borderRadius: '8px', // Add border radius for rounded corners
 });
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
 
-  try {
-    // await customFetch.post('/auth/register', data);
-    console.log(data);
-    toast.success('saved sports');
-    return redirect('/AddPersonalDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-
-    return error;
-  }
-};
 
 const AddHostelDetails = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
+    formData.append("college_email",localStorage.getItem("user_email"));
   
     try {
-      // await customFetch.post('/auth/register', data);
-      console.log(data);
+      await customFetch.post('/temp-hostel-details', formData);
+      console.log(formData);
       toast.success('saved sports');
       console.log("hey");
-      redirect('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
+      navigate('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
       console.log("hey2");
     } catch (error) {
       toast.error(error?.response?.data?.msg);

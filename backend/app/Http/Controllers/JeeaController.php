@@ -17,12 +17,12 @@ class JeeaController extends Controller
 
 
     // Show (Fetch single record)
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
 
         $jeea = Jeea::where('email_username', $email)->firstOrFail();
         return response()->json($jeea,200);

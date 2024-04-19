@@ -1,15 +1,10 @@
-// import React from 'react';
-import { Form, redirect, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-const BlockTextField = styled(TextField)({
-  display: 'block', // Set display property to block
-  marginBottom: '20px', // Add margin at the bottom for spacing
-});
 import customFetch from '../utils/customFetch';
-import { useEffect } from 'react';
+
 
 const StyledForm = styled(Form)({
   // Add your custom CSS styles here for the form
@@ -23,43 +18,44 @@ const StyledForm = styled(Form)({
 
 const AddCcaEca = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
-//   const userData = {
-//     "registered_email_id": localStorage.getItem('user_email') ,
-//     "registered_mob_no": localStorage.getItem('user_mob')
-//   }
-
-//   useEffect(() => {
-//     const handleLogin = async () => {
-//       await customFetch.post('/login', userData);
-// };
-//     handleLogin();
-// }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    data.college_email=localStorage.getItem("user_email")
+    formData.append("college_email",localStorage.getItem("user_email"));
     try {
-      await customFetch.post('/temp-cca-ecas', data);
-      console.log(data);
+      await customFetch.post('/temp-cca-ecas', formData);
+      console.log(formData);
       toast.success('saved sports');
       console.log("hey");
-      redirect('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
+      navigate('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
       console.log("hey2");
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
   };
 
+  const handleFetch = async (event) => {
+    event.preventDefault();
+    try {
+      console.log("Clicked");
+      // await customFetch.post('/temp-cca-ecas', formData);
+      
+    } catch (error) {
+      // toast.error(error?.response?.data?.msg);
+    }
+  };
+
   return (
     <Wrapper>
+    <h1>Hey</h1>
+    <button onClick={handleFetch}>Hey</button>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Add CCA ECA</Typography>
 
-        
         <TextField
           type="text"
           name="cca_sports"
@@ -101,3 +97,4 @@ const AddCcaEca = () => {
 };
 
 export default AddCcaEca;
+

@@ -9,14 +9,19 @@ use Illuminate\Support\Facades\Auth;
 class TempParentDetailController extends Controller
 {
    
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $parentDetail = Temp_parent_details::where('college_email', $email)->firstOrFail();
-        return response()->json($parentDetail,200);
+        if(!$parentDetail){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($parentDetail,200);
+        }
     }
 
     public function update(Request $request)
@@ -41,8 +46,10 @@ class TempParentDetailController extends Controller
         ]);
 
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
+
+        $email=$request->college_email;
 
         $parentDetail = Temp_parent_details::updateorCreate(
             ['college_email' => $email], // Match by college_email
@@ -52,11 +59,11 @@ class TempParentDetailController extends Controller
         return response()->json($parentDetail, $parentDetail->wasRecentlyCreated ? 201 : 200);
     }
 
-    public function destroy()
+    public function destroy($email)
     {
         // $email=session('user.email');
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $parentDetail = Temp_parent_details::where('college_email', $email)->firstOrFail();
 
         $parentDetail->delete();

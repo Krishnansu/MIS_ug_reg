@@ -1,24 +1,12 @@
 // import React from 'react';
-import { Form, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography ,Select, MenuItem} from '@mui/material';
 import { styled  } from '@mui/system';
+import customFetch from '../utils/customFetch';
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
 
-  try {
-    // await customFetch.post('/auth/register', data);
-    console.log(data);
-    toast.success('saved sports');
-    return redirect('/AddParentDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-    return error;
-  }
-};
 
 const StyledForm = styled(Form)({
   maxWidth: '400px',
@@ -30,18 +18,18 @@ const StyledForm = styled(Form)({
 
 const AddOtherDetails = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   const isSubmitting = navigation.state === 'submitting';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-
+    formData.append("college_email",localStorage.getItem("user_email"));
     try {
-      // await customFetch.post('/auth/register', data);
-      console.log(data);
+      await customFetch.post('/temp-other-details', formData);
+      console.log(formData);
       toast.success('saved sports');
-      navigation.navigate('/AddParentDetails'); // Using navigation to redirect
+      navigate('/AddParentDetails'); // Using navigation to redirect
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }

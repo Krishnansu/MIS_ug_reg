@@ -9,14 +9,19 @@ use Illuminate\Support\Facades\Auth;
 class TempOtherDetailController extends Controller
 {
     
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $otherDetail = Temp_other_details::where('college_email', $email)->firstOrFail();
-        return response()->json($otherDetail);
+        if(!$otherDetail){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($otherDetail,200);
+        }
     }
 
     public function update(Request $request)
@@ -38,10 +43,10 @@ class TempOtherDetailController extends Controller
             'ifsc_code_of_student' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/', // Typical IFSC code format
         ]);
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
 
-
+        $email=$request->college_email;
 
         $otherDetail = Temp_other_details::updateorCreate(
             ['college_email' => $email], // Match by college_email
@@ -52,12 +57,12 @@ class TempOtherDetailController extends Controller
     }
 
 
-    public function destroy()
+    public function destroy($email)
     {
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $otherDetail = Temp_other_details::where('college_email', $email)->firstOrFail();
 
         $otherDetail->delete();

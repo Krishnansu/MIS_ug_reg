@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Temp_education_details;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TempEducationDetailController extends Controller
 {
@@ -18,18 +19,26 @@ class TempEducationDetailController extends Controller
     // }
 
  
-    public function show()
+    public function show($email)
     {
         // $email=session('user.email');
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $educationDetail = Temp_education_details::where('college_email', $email)->firstOrFail();
-        return response()->json($educationDetail,200);
+        if(!$educationDetail){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($educationDetail,200);
+        }  
+
     }
 
 
     public function update(Request $request)
     {
+        Log::debug("Inside Controller");
+        Log::debug($request);
         $formFields = $request->validate([
             'name_of_examination_10' => 'required|string|max:255', 
             'university_board_10' => 'required|string|max:100',
@@ -49,6 +58,8 @@ class TempEducationDetailController extends Controller
             'migration_certificate_no' => 'required|string' 
         ]);
 
+
+        Log::debug("There");
         if($request->hasFile('uploaded_marksheet_10')){
             $formFields['uploaded_marksheet_10'] = $request->file('uploaded_marksheet_10')->store('uploaded','public');
         }
@@ -68,8 +79,11 @@ class TempEducationDetailController extends Controller
         // $user = Auth::user(); 
         // $email = $user -> registered_email_id;
 
+        $email=$request->college_email;
+        Log::debug($email);
+
         $educationDetail = Temp_education_details::updateorCreate(
-            // ['college_email' => $email], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $formFields 
         );
 
@@ -77,11 +91,11 @@ class TempEducationDetailController extends Controller
     }
 
 
-    public function destroy()
+    public function destroy($email)
     {
         // $email=session('user.email');
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         $educationDetail = Temp_education_details::where('college_email', $email)->firstOrFail();
 
         $educationDetail->delete();

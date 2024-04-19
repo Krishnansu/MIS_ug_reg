@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Log;
 class TempCcaEcaController extends Controller
 {
 
-    public function show() 
+    public function show($email) 
     {
         // $email=session('user.email');
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
-        $ccaEca = Temp_cca_eca::where('college_email', $email)->firstOrFail();
-        return response()->json($ccaEca,200);
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
+        // Log::debug(Temp_cca_eca::where('college_email', $email)->first());
+        $ccaEca = Temp_cca_eca::where('college_email', $email)->first();
+        if(!$ccaEca){
+            return response()->json(['message' => 'Data not found for this email' ], 204);
+        }
+        else{
+            return response()->json($ccaEca,200);
+        }  
+        
     }
 
 
@@ -32,9 +39,10 @@ class TempCcaEcaController extends Controller
         // $user = Auth::user(); 
         // $email = $user -> registered_email_id;
         
-        
+        $email=$request->college_email;
+
         $ccaEca = Temp_cca_eca::updateorCreate(
-            // ['college_email' => $email], // Match by college_email
+            ['college_email' => $email], // Match by college_email
             $request->all() // Set all fields 
         );
         Log::debug($ccaEca);
@@ -43,13 +51,13 @@ class TempCcaEcaController extends Controller
     }
 
 
-    public function destroy()
+    public function destroy($email)
     {
 
         // $email=session('user.email');
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         
         $ccaEca = Temp_cca_eca::where('college_email', $email)->firstOrFail();
 
