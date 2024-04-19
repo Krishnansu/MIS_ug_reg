@@ -1,20 +1,28 @@
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
 
 
 const StyledForm = styled(Form)({
-  // Add your custom CSS styles here for the form
-  maxWidth: '400px', // Decrease the width
+  maxWidth: '1300px',
   margin: '0 auto',
-  padding: '20px', // Add padding for the box effect
-  border: '1px solid #ccc', // Add border for the box effect
-  borderRadius: '8px', // Add border radius for rounded corners
+  padding: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
 });
 
+const StyledGrid = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'row',
+});
+
+const StyledGridItem = styled(Grid)({
+  marginBottom: '20px',
+  width: '50%',
+});
 
 const AddCcaEca = () => {
   const navigation = useNavigation();
@@ -55,39 +63,48 @@ const AddCcaEca = () => {
     <button onClick={handleFetch}>Hey</button>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Add CCA ECA</Typography>
-
-        <TextField
-          type="text"
-          name="cca_sports"
-          label="CCA Sports"
-          defaultValue="cricket"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          type="text"
-          name="eca_sports"
-          label="ECA Sports"
-          defaultValue="eca_sports"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          type="text"
-          name="major_game"
-          label="Major Game"
-          defaultValue="major_game"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          type="text"
-          name="minor_game"
-          label="Minor Game"
-          defaultValue="minor_game"
-          fullWidth
-          margin="normal"
-        />
+        <Grid container spacing={2}>
+          <StyledGridItem item xs={6}>
+            <TextField
+              type="text"
+              name="cca_sports"
+              label="CCA Sports"
+              defaultValue="cricket"
+              fullWidth
+              margin="normal"
+            />
+          </StyledGridItem>
+          <StyledGridItem item xs={6}>
+            <TextField
+              type="text"
+              name="eca_sports"
+              label="ECA Sports"
+              defaultValue="eca_sports"
+              fullWidth
+              margin="normal"
+            />
+          </StyledGridItem>
+          <StyledGridItem item xs={6}>
+            <TextField
+              type="text"
+              name="major_game"
+              label="Major Game"
+              defaultValue="major_game"
+              fullWidth
+              margin="normal"
+            />
+          </StyledGridItem>
+          <StyledGridItem item xs={6}>
+            <TextField
+              type="text"
+              name="minor_game"
+              label="Minor Game"
+              defaultValue="minor_game"
+              fullWidth
+              margin="normal"
+            />
+          </StyledGridItem>
+        </Grid>
         <Button type="submit" disabled={isSubmitting} variant="contained">
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>

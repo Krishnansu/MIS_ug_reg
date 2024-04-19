@@ -14,20 +14,30 @@
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
-import { Button, TextField, Typography ,Select, MenuItem} from '@mui/material';
-import { styled  } from '@mui/system';
+import { Button, TextField, Typography, Select, MenuItem, Grid } from '@mui/material';
+import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
 
 const StyledForm = styled(Form)({
-  // Add your custom CSS styles here for the form
-  maxWidth: '400px', // Decrease the width
+  maxWidth: '1300px',
   margin: '0 auto',
-  padding: '20px', // Add padding for the box effect
-  border: '1px solid #ccc', // Add border for the box effect
-  borderRadius: '8px', // Add border radius for rounded corners
+  padding: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
 });
 
+const StyledSelectWrapper = styled('div')({
+  marginBottom: '20px',
+});
 
+const StyledTitle = styled(Typography)({
+  fontSize: '24px',
+  marginBottom: '20px',
+});
+
+const StyledTextField = styled(TextField)({
+  marginBottom: '20px',
+});
 
 const AddHostelDetails = () => {
   const navigation = useNavigation();
@@ -55,43 +65,55 @@ const AddHostelDetails = () => {
   return (
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
-        <Typography variant="h4">Add CCA ECA</Typography>
-        <div style={{ marginBottom: '20px' }}>
-  <Select
-    name="food_habit"
-    label="Food Habit"
-    defaultValue="Non-Veg"
-    fullWidth
-    margin="normal"
-  >
-    <MenuItem value="Veg">Veg</MenuItem>
-    <MenuItem value="Non-Veg">Non-Veg</MenuItem>
-    </Select>
-</div>
-        <TextField
-          type="text"
-          name="laptop_details"
-          label="If Having laptop(Give Details)"
-          defaultValue="Macbook"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          type="text"
-          name="model_no"
-          label="Model No"
-          defaultValue="a2337"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          type="text"
-          name="serial_no"
-          label="Serial No"
-          defaultValue="72347"
-          fullWidth
-          margin="normal"
-        />
+        <StyledTitle variant="h4">Add CCA ECA</StyledTitle>
+        
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <StyledTextField
+              type="text"
+              name="laptop_details"
+              label="If Having laptop(Give Details)"
+              defaultValue="Macbook"
+              fullWidth
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <StyledTextField
+              type="text"
+              name="model_no"
+              label="Model No"
+              defaultValue="a2337"
+              fullWidth
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <StyledTextField
+              type="text"
+              name="serial_no"
+              label="Serial No"
+              defaultValue="72347"
+              fullWidth
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <StyledSelectWrapper>
+              <Typography variant="subtitle1">Food Habit</Typography>
+              <Select
+                name="food_habit"
+                defaultValue="Non-Veg"
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value="Veg">Veg</MenuItem>
+                <MenuItem value="Non-Veg">Non-Veg</MenuItem>
+              </Select>
+            </StyledSelectWrapper>
+          </Grid>
+        </Grid>
+        
         <Button type="submit" disabled={isSubmitting} variant="contained">
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>

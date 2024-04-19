@@ -3,6 +3,8 @@ import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+
+
 import customFetch from '../utils/customFetch';
 
 const StyledForm = styled(Form)({
@@ -103,5 +105,5 @@ const Login = () => {
     </Wrapper>
   );
 };
-
-export default Login;
+}
+export default Login

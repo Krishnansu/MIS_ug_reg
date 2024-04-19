@@ -37,10 +37,10 @@ import {
 
 // import { action as loginAction } from './pages/Login';
 // import { action as AddCcaEcaAction } from './pages/AddCcaEca';
-// import { action as AddPersonalDetailsAction } from './pages/AddPersonalDetails';
-// import { action as AddOtherDetailsAction } from './pages/AddOtherDetails';
-// import { action as AddParentDetailsAction } from './pages/AddParentDetails';
-// import { action as AddEducationDetailsAction } from './pages/AddEducationDetails';
+// // import { action as AddPersonalDetailsAction } from './pages/AddPersonalDetails';
+// // import { action as AddOtherDetailsAction } from './pages/AddOtherDetails';
+// // import { action as AddParentDetailsAction } from './pages/AddParentDetails';
+// // import { action as AddEducationDetailsAction } from './pages/AddEducationDetails';
 
 
 
