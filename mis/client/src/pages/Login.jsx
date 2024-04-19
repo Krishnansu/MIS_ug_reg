@@ -1,6 +1,16 @@
-import { Link, Form, redirect, useNavigation } from 'react-router-dom';
+import { Form,redirect, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
+import { Button, TextField, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+
+const StyledForm = styled(Form)({
+  maxWidth: '400px',
+  margin: '0 auto',
+  padding: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+});
 
 export const action =
   (queryClient) =>
@@ -20,25 +30,55 @@ export const action =
   };
 
 const Login = () => {
-  const navigation =useNavigation();
-  console.log(navigation);
-  const isSubmitting = navigation.state==='submitting';
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    try {
+      // await customFetch.post('/auth/login', data);
+      console.log(data);
+      toast.success('Login successful');
+      redirect('/dashboard');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   return (
     <Wrapper>
-      <Form method='post' className='form'>
-        <h4>login</h4>
-        <input type='email' name='email' />
-        <input type='password' name='registered_mobile_no' />
-        <input type='password' name='password' />
-        <button type='submit' disabled={isSubmitting}>{isSubmitting?'submitting....':'submit'}</button>
-        <p>
-          Not a member yet?
-          <Link to='/register' className='member-btn'>
-            Register
-          </Link>
-        </p>
-      </Form>
+      <StyledForm onSubmit={handleSubmit}>
+        <Typography variant="h4">Login</Typography>
+        <TextField
+          type="number"
+          name="jee_application_no"
+          label="JEE Application No"
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          type="password"
+          name="registered_mobile_no"
+          label="Registered Mobile No"
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          type="email"
+          name="email"
+          label="Email"
+          fullWidth
+          margin="normal"
+        />
+        <Button type="submit" disabled={isSubmitting} variant="contained">
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </Button>
+      </StyledForm>
     </Wrapper>
   );
 };
+
 export default Login;

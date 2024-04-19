@@ -4,6 +4,10 @@ import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+const BlockTextField = styled(TextField)({
+  display: 'block', // Set display property to block
+  marginBottom: '20px', // Add margin at the bottom for spacing
+});
 
 const StyledForm = styled(Form)({
   // Add your custom CSS styles here for the form
@@ -56,14 +60,14 @@ const AddCcaEca = () => {
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Add CCA ECA</Typography>
-        <TextField
-          type="email"
-          name="email"
-          label="College Email"
-          defaultValue="21je0xxx@iitism.ac.in"
-          fullWidth
-          margin="normal"
-        />
+        <BlockTextField
+  type="email"
+  name="email"
+  label="College Email"
+  defaultValue="rahul@gmail.com"
+  fullWidth
+  margin="normal"
+/>
         <TextField
           type="text"
           name="cca_sports"

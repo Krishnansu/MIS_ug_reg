@@ -40,16 +40,7 @@ const AddParentDetails = () => {
       <StyledForm method="post" className="form">
         <Typography variant="h4">Parent Details</Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              type="email"
-              name="college_email"
-              label="College Email"
-              defaultValue="21je0xxx@iitism.ac.in"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
+          
           <Grid item xs={12} sm={6}>
             <TextField
               type="text"

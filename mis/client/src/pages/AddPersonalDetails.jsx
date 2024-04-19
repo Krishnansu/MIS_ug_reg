@@ -93,15 +93,15 @@ const AddPersonalDetails = () => {
         />
         <TextField
           type="email"
-          name="college_email"
-          label="college Email"
+          name="email"
+          label="Email"
           defaultValue="21je0xxx@iitism.ac.in"
           fullWidth
           margin="normal"
         />
         <TextField
           type="number"
-          name="contact_name"
+          name="contact_no"
           label="Contact no"
           defaultValue="878797979797"
           fullWidth
@@ -159,7 +159,7 @@ const AddPersonalDetails = () => {
         />
         <TextField
           type="number"
-          name="aadhar_no"
+          name="aadhar_number"
           label="Aadhar Number"
           defaultValue="21617637816"
           fullWidth
@@ -199,7 +199,7 @@ const AddPersonalDetails = () => {
         />
         <TextField
           type="text"
-          name="permanent_address_line1"
+          name="permanent_address_line_1"
           label="Permanent Address Line 1"
           defaultValue="test"
           fullWidth
@@ -207,7 +207,7 @@ const AddPersonalDetails = () => {
         />
         <TextField
           type="text"
-          name="permanent_address_line2"
+          name="permanent_address_line_2"
           label="Permanent Address Line 2"
           defaultValue="test"
           fullWidth
@@ -269,6 +269,24 @@ const AddPersonalDetails = () => {
           fullWidth
           margin="normal"
         />
+        <TextField
+  type="file"
+  name="uploaded_photo"
+  fullWidth
+  margin="normal"
+  sx={{ display: 'block' }} // Display the TextField as a block element
+  InputLabelProps={{ shrink: true }} // Shrink the label to avoid collision
+  label="Uploaded photo"
+/>
+<TextField
+  type="file"
+  name="uploaded_signature"
+  fullWidth
+  margin="normal"
+  sx={{ display: 'block' }} // Display the TextField as a block element
+  InputLabelProps={{ shrink: true }} // Shrink the label to avoid collision
+  label="Uploaded signature"
+/>
 
         {/* Add more TextField components for other input fields */}
         <Button type="submit" disabled={isSubmitting} variant="contained">

@@ -82,7 +82,7 @@ const AddHostelDetails = () => {
 </div>
         <TextField
           type="text"
-          name="if_having_laptop"
+          name="laptop_details"
           label="If Having laptop(Give Details)"
           defaultValue="Macbook"
           fullWidth

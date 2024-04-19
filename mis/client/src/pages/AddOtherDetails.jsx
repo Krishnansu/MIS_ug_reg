@@ -51,14 +51,7 @@ const AddOtherDetails = () => {
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Other Details</Typography>
-        <TextField
-          type="email"
-          name="college_email"
-          label="College Email"
-          defaultValue="21je0xxx@iitism.ac.in"
-          fullWidth
-          margin="normal"
-        />
+        
         <TextField
   type="text"
   name="name_in_hindi"
