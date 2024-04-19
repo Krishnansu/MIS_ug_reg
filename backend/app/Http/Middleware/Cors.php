@@ -9,7 +9,7 @@ class Cors
     {
         // \Illuminate\Support\Facades\Log::info("CORS middleware hit");
         $headers = [
-            'Access-Control-Allow-Origin'      => 'http://localhost:3000',  // Replace with your frontend origin
+            'Access-Control-Allow-Origin'      => 'http://localhost:5173',  // Replace with your frontend origin
             'Access-Control-Allow-Methods'     => 'GET, POST, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Credentials' => 'true',
             'Access-Control-Allow-Headers'     => 'X-Requested-With, Content-Type, X-Token-Auth, Authorization' 

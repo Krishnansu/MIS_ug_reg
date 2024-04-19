@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -25,6 +26,7 @@ class LoginController extends Controller
             Auth::login($user,true); 
             // $request->session()->put('user.email', $user->registered_email_id);
             // $request->session()->put('user.jee_application_no', $user->jee_main_application_no);
+            Log::debug($user); 
             return response()->json(['message' => 'Login successful', 'user_email' => $user->registered_email_id], 200);
 
         } else {

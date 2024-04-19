@@ -4,6 +4,8 @@ import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import customFetch from '../utils/customFetch';
+import { useEffect } from 'react';
 
 const StyledForm = styled(Form)({
   // Add your custom CSS styles here for the form
@@ -14,34 +16,30 @@ const StyledForm = styled(Form)({
   borderRadius: '8px', // Add border radius for rounded corners
 });
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-
-  try {
-    // await customFetch.post('/auth/register', data);
-    console.log(data);
-    toast.success('saved sports');
-    return redirect('/AddPersonalDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-
-    return error;
-  }
-};
 
 const AddCcaEca = () => {
   const navigation = useNavigation();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
+//   const userData = {
+//     "registered_email_id": localStorage.getItem('user_email') ,
+//     "registered_mob_no": localStorage.getItem('user_mob')
+//   }
+
+//   useEffect(() => {
+//     const handleLogin = async () => {
+//       await customFetch.post('/login', userData);
+// };
+//     handleLogin();
+// }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-  
+    data.college_email=localStorage.getItem("user_email")
     try {
-      // await customFetch.post('/auth/register', data);
+      await customFetch.post('/temp-cca-ecas', data);
       console.log(data);
       toast.success('saved sports');
       console.log("hey");
@@ -56,14 +54,8 @@ const AddCcaEca = () => {
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Add CCA ECA</Typography>
-        <TextField
-          type="email"
-          name="email"
-          label="College Email"
-          defaultValue="21je0xxx@iitism.ac.in"
-          fullWidth
-          margin="normal"
-        />
+
+        
         <TextField
           type="text"
           name="cca_sports"
