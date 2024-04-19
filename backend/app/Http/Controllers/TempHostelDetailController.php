@@ -29,12 +29,12 @@ class TempHostelDetailController extends Controller
             'serial_no' => 'nullable|string'
         ]);
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
 
 
         $hostelDetail = Temp_hostel_details::updateorCreate(
-            ['college_email' => $email], // Match by college_email
+            // ['college_email' => $email], // Match by college_email
             $request->all() 
         );
 

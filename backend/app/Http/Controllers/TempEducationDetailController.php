@@ -65,11 +65,11 @@ class TempEducationDetailController extends Controller
             $formFields['uploaded_certificate_12'] = $request->file('uploaded_certificate_12')->store('uploaded','public');
         }
 
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
 
         $educationDetail = Temp_education_details::updateorCreate(
-            ['college_email' => $email], // Match by college_email
+            // ['college_email' => $email], // Match by college_email
             $formFields 
         );
 

@@ -32,11 +32,11 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
+Route::post('/temp-cca-ecas', [TempCcaEcaController::class, 'update']);
 // CCA/ECA Records with auth middleware
 Route::middleware('auth')->group(function () {
     Route::get('/temp-cca-ecas', [TempCcaEcaController::class, 'show']);
-    Route::post('/temp-cca-ecas', [TempCcaEcaController::class, 'update']);
+    
     Route::delete('/temp-cca-ecas', [TempCcaEcaController::class, 'destroy']);
 });
 

@@ -35,8 +35,8 @@ import {
   Register,
 } from "./pages";
 
-import { action as registerAction } from './pages/Register';
-import { action as AddCcaEcaAction } from './pages/AddCcaEca';
+// import { action as loginAction } from './pages/Login';
+// import { action as AddCcaEcaAction } from './pages/AddCcaEca';
 import { action as AddPersonalDetailsAction } from './pages/AddPersonalDetails';
 import { action as AddOtherDetailsAction } from './pages/AddOtherDetails';
 import { action as AddParentDetailsAction } from './pages/AddParentDetails';
@@ -56,17 +56,15 @@ const router = createBrowserRouter([
       },
       {
         path:'AddCcaEca',
-        element:<AddCcaEca/>,
-        action: AddCcaEcaAction,
+        element:<AddCcaEca/>
       },
       {
         path:'Register',
-        element:<Register/>,
-        action: registerAction ,
+        element:<Register/>
       },
       {
         path:'Login',
-        element:<Login/>
+        element:<Login/>, 
       },
       {
         path:'DisCcaEca',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Temp_cca_eca;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TempCcaEcaController extends Controller
 {
@@ -27,17 +28,18 @@ class TempCcaEcaController extends Controller
         ]);
         
         // $email=session('user.email');
-
-        $user = Auth::user(); 
-        $email = $user -> registered_email_id;
+        Log::debug($request);
+        // $user = Auth::user(); 
+        // $email = $user -> registered_email_id;
         
         
         $ccaEca = Temp_cca_eca::updateorCreate(
-            ['college_email' => $email], // Match by college_email
+            // ['college_email' => $email], // Match by college_email
             $request->all() // Set all fields 
         );
-
+        Log::debug($ccaEca);
         return response()->json($ccaEca, $ccaEca->wasRecentlyCreated ? 201 : 200);
+        return response() ->json("Success");
     }
 
 

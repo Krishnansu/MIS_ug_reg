@@ -1,4 +1,4 @@
-import { Form,redirect, useNavigation } from 'react-router-dom';
+import { Form, redirect, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography } from '@mui/material';
@@ -11,23 +11,34 @@ const StyledForm = styled(Form)({
   border: '1px solid #ccc',
   borderRadius: '8px',
 });
+import { Button, TextField, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import customFetch from '../utils/customFetch';
 
-export const action =
-  (queryClient) =>
-  async ({ request }) => {
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-    try {
-      // await customFetch.post('/auth/login', data);
-      console.log(data);
-      queryClient.invalidateQueries();
-      toast.success('Login successful');
-      return redirect('/dashboard');
-    } catch (error) {
-      toast.error(error?.response?.data?.msg);
-      return error;
-    }
-  };
+const StyledForm = styled(Form)({
+  maxWidth: '400px',
+  margin: '0 auto',
+  padding: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+});
+
+// export const action =
+//   (queryClient) =>
+//   async ({ request }) => {
+//     const formData = await request.formData();
+//     const data = Object.fromEntries(formData);
+//     try {
+//       await customFetch.post('/login', data);
+//       console.log(data);
+//       queryClient.invalidateQueries();
+//       toast.success('Login successful');
+//       return redirect('/dashboard');
+//     } catch (error) {
+//       toast.error(error?.response?.data?.msg);
+//       return error;
+//     }
+//   };
 
 const Login = () => {
   const navigation = useNavigation();
@@ -39,8 +50,9 @@ const Login = () => {
     const data = Object.fromEntries(formData);
 
     try {
-      // await customFetch.post('/auth/login', data);
+      await customFetch.post('/login', data);
       console.log(data);
+      localStorage.setItem('user_email', data.registered_email_id);
       toast.success('Login successful');
       redirect('/dashboard');
     } catch (error) {
@@ -48,27 +60,31 @@ const Login = () => {
     }
   };
 
+const Login = () => {
+  const navigation =useNavigation();
+  console.log(navigation);
+  const isSubmitting = navigation.state==='submitting';
   return (
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Login</Typography>
         <TextField
           type="number"
-          name="jee_application_no"
+          name="jee_main_application_no"
           label="JEE Application No"
           fullWidth
           margin="normal"
         />
         <TextField
           type="password"
-          name="registered_mobile_no"
+          name="registered_mob_no"
           label="Registered Mobile No"
           fullWidth
           margin="normal"
         />
         <TextField
           type="email"
-          name="email"
+          name="registered_email_id"
           label="Email"
           fullWidth
           margin="normal"
