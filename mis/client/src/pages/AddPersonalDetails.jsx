@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Select, MenuItem, Grid } from '@mui/material';
 import { styled } from '@mui/system';
+// import customFetch from 'your-custom-fetch-library'; // Import your custom fetch library
+import customFetch from '../utils/customFetch'
 
 const StyledForm = styled(Form)({
   width: '100%',
@@ -26,15 +28,63 @@ const StyledTitle = styled(Typography)({
 const AddPersonalDetails = () => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
+  const [formData, setFormData] = useState({
+    jee_main_application_no: '',
+    institute_name: '',
+    first_name: '',
+    middle_name: '',
+    last_name: '',
+    email: '',
+    contact_no: '',
+    category: '',
+    allocated_category: '',
+    date_of_birth: '',
+    gender: '',
+    preparatory: '',
+    divyang: '',
+    blood_group: 'B+',
+    religion: 'HINDU',
+    birth_place: '',
+    uploaded_photo: null,
+    uploaded_signature: null,
+    aadhar_number: '',
+    country: '',
+    state: '',
+    city: '',
+    pincode: '',
+    permanent_address_line_1: '',
+    permanent_address_line_2: '',
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/temp-cca-ecas/' + email);
+        const data = response.data; // Assuming the response is in JSON format
+        setFormData(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run only once on component mount
+
+  const handleChange = (event) => {
+    const { name, value, type, files } = event.target;
+    const newValue = type === 'file' ? files[0] : value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-
     try {
-      // await customFetch.post('/auth/register', data);
-      console.log(data);
+      // await customFetch.post('/auth/register', formData);
+      console.log(formData);
       toast.success('Saved personal details');
       redirect('/AddOtherDetails');
     } catch (error) {
@@ -47,146 +97,34 @@ const AddPersonalDetails = () => {
       <StyledForm onSubmit={handleSubmit}>
         <StyledTitle variant="h4">Personal Details</StyledTitle>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="jee_main_application_no"
-              label="JEE Main Application No"
-              defaultValue="1000098"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="institute_name"
-              label="Institute Name"
-              defaultValue="IIT ISM"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="first_name"
-              label="First Name"
-              defaultValue="Test"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="middle_name"
-              label="Middle Name"
-              defaultValue="Test"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="last_name"
-              label="Last Name"
-              defaultValue="Last"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="email"
-              name="email"
-              label="Email"
-              defaultValue="21je0xxx@iitism.ac.in"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="number"
-              name="contact_no"
-              label="Contact no"
-              defaultValue="878797979797"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="category"
-              label="Category"
-              defaultValue="GEN"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="allocated_category"
-              label="Allocated Category"
-              defaultValue="OPEN"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="date"
-              name="date_of_birth"
-              defaultValue="2005-04-12"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="gender"
-              label="Gender"
-              defaultValue="M"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="preparatory"
-              label="Preparatory"
-              defaultValue="Yes"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="divyang"
-              label="Divyang"
-              defaultValue="no"
-              fullWidth
-              margin="normal"
-            />
-          </Grid>
+          {Object.entries(formData).map(([key, value]) => {
+            if (['jee_main_application_no', 'institute_name', 'first_name', 'middle_name', 'last_name', 'email', 'contact_no', 'category', 'allocated_category', 'date_of_birth', 'gender', 'preparatory', 'divyang'].includes(key)) {
+              return (
+                <Grid item xs={6} key={key}>
+                  <TextField
+                    type="text"
+                    name={key}
+                    label={key.replace(/_/g, ' ')}
+                    value={value}
+                    fullWidth
+                    margin="normal"
+                    onChange={handleChange}
+                    disabled={key !== 'blood_group' && key !== 'religion' ? true : false}
+                  />
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })}
           <Grid item xs={6}>
             <TextField
               type="number"
               name="aadhar_number"
               label="Aadhar Number"
-              defaultValue="21617637816"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -194,9 +132,9 @@ const AddPersonalDetails = () => {
               type="text"
               name="country"
               label="Country"
-              defaultValue="India"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -204,9 +142,9 @@ const AddPersonalDetails = () => {
               type="text"
               name="state"
               label="State"
-              defaultValue="Jharkhand"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -214,9 +152,9 @@ const AddPersonalDetails = () => {
               type="text"
               name="city"
               label="City"
-              defaultValue="Dhanbad"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -224,9 +162,9 @@ const AddPersonalDetails = () => {
               type="number"
               name="pincode"
               label="Pincode"
-              defaultValue="500097"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -234,9 +172,9 @@ const AddPersonalDetails = () => {
               type="text"
               name="permanent_address_line_1"
               label="Permanent Address Line 1"
-              defaultValue="test"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -244,18 +182,19 @@ const AddPersonalDetails = () => {
               type="text"
               name="permanent_address_line_2"
               label="Permanent Address Line 2"
-              defaultValue="test"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
             <Typography variant="subtitle1">Blood Group</Typography>
             <Select
               name="blood_group"
-              defaultValue="B+"
               fullWidth
               margin="normal"
+              onChange={handleChange}
+              value={formData.blood_group}
             >
               <MenuItem value="A+">A+</MenuItem>
               <MenuItem value="B+">B+</MenuItem>
@@ -271,9 +210,10 @@ const AddPersonalDetails = () => {
             <Typography variant="subtitle1">Religion</Typography>
             <Select
               name="religion"
-              defaultValue="HINDU"
               fullWidth
               margin="normal"
+              onChange={handleChange}
+              value={formData.religion}
             >
               <MenuItem value="HINDU">HINDU</MenuItem>
               <MenuItem value="MUSLIM">MUSLIM</MenuItem>
@@ -291,9 +231,9 @@ const AddPersonalDetails = () => {
               type="text"
               name="birth_place"
               label="Birth Place"
-              defaultValue="Mumbai"
               fullWidth
               margin="normal"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -305,6 +245,7 @@ const AddPersonalDetails = () => {
               sx={{ display: 'block' }}
               InputLabelProps={{ shrink: true }}
               label="Uploaded photo"
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -316,10 +257,14 @@ const AddPersonalDetails = () => {
               sx={{ display: 'block' }}
               InputLabelProps={{ shrink: true }}
               label="Uploaded signature"
+              onChange={handleChange}
             />
           </Grid>
+        {/* </Grid> */}
+          
         </Grid>
         
+
         <Button type="submit" disabled={isSubmitting} variant="contained">
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
