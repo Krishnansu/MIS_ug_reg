@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Typography, Grid, Button, TextField, Paper } from '@mui/material';
+import { Typography, Grid, Button, TextField, Paper, Container } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
 
@@ -11,7 +11,7 @@ const StyledContainer = styled(Paper)({
 
 const StyledForm = styled('div')({
   width: '100%',
-  maxWidth: '1300px', // Adjust this value as needed
+  maxWidth: '800px', // Adjust this value as needed
   margin: '0 auto',
   padding: '20px',
   border: '1px solid #ccc',
@@ -21,6 +21,12 @@ const StyledForm = styled('div')({
 const StyledTitle = styled(Typography)({
   fontSize: '24px',
   marginBottom: '20px',
+});
+
+const StyledKeyValue = styled(Typography)({
+  borderBottom: '1px solid #ccc',
+  paddingBottom: '10px',
+  marginBottom: '10px',
 });
 
 const UserProfile = () => {
@@ -78,13 +84,16 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       <StyledContainer>
         <Typography variant="h4">CCA ECA Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.ccaEcaData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -95,7 +104,10 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.personalDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -106,7 +118,10 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.otherDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -117,7 +132,10 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.parentDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -128,7 +146,10 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.educationDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -139,7 +160,10 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <Typography>{key}: {value}</Typography>
+              <StyledKeyValue>
+                <Typography variant="subtitle1">{key}:</Typography>
+                <Typography variant="body1">{value}</Typography>
+              </StyledKeyValue>
             </Grid>
           ))}
         </Grid>
@@ -228,7 +252,7 @@ const UserProfile = () => {
           Submit
         </Button>
       </StyledContainer>
-    </div>
+    </Container>
   );
 };
 
