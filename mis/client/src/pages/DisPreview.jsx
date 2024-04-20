@@ -43,7 +43,7 @@ const UserProfile = () => {
         const feeResponse = await customFetch.get('/jeeas/' + email);
 
         setUserData({
-          ccaEcaData: excludeFields(ccaEcaResponse.data, ['created_at', 'updated_at']),
+          ccaEcaData: excludeFields(ccaEcaResponse.data, ['created_at', 'updated_at', 'id']),
           personalDetailsData: excludeFields(personalDetailsResponse.data, ['created_at', 'updated_at']),
           otherDetailsData: excludeFields(otherDetailsResponse.data, ['created_at', 'updated_at']),
           parentDetailsData: excludeFields(parentDetailsResponse.data, ['created_at', 'updated_at']),
