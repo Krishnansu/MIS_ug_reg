@@ -48,8 +48,8 @@ const UserProfile = () => {
         const parentDetailsResponse = await customFetch.get('/temp-parent-details/' + email);
         const educationDetailsResponse = await customFetch.get('/temp-education-details/' + email);
         const hostelDetailsResponse = await customFetch.get('/temp-hostel-details/' + email);
-        const emailResponse = await customFetch.get('/temp-iit-ism-email/' + email);
-        const feeResponse = await customFetch.get('/temp-fee-details/' + email);
+        const emailResponse = await customFetch.get('/jeeas/' + email);
+        const feeResponse = await customFetch.get('/jeeas/' + email);
 
         setUserData({
           ccaEcaData: ccaEcaResponse.data,
