@@ -61,6 +61,22 @@ const AddPersonalDetails = () => {
   });
 
   useEffect(() => {
+    const fetchJeea = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/jeeas/' + email);
+        const data = response.data; 
+        console.log("Fetched jeea: ",Object.entries(data));// Assuming the response is in JSON format
+        setJeea(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchJeea();
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const email = localStorage.getItem("user_email");
@@ -76,21 +92,7 @@ const AddPersonalDetails = () => {
     fetchData();
   }, []); 
 
-  useEffect(() => {
-    const fetchJeea = async () => {
-      try {
-        const email = localStorage.getItem("user_email");
-        const response = await customFetch.get('/jeeas/' + email);
-        const data = response.data; 
-        console.log("Fetched jeea: ",Object.entries(data));// Assuming the response is in JSON format
-        setJeea(data);
-      } catch (error) {
-        toast.error(error.message);
-      }
-    };
 
-    fetchJeea();
-  }, []);
 
   const goBack = async (event) => {
     event.preventDefault();
