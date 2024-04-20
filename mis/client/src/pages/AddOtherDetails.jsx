@@ -4,9 +4,8 @@ import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Select, MenuItem, Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import { Button, TextField, Typography ,Select, MenuItem} from '@mui/material';
-import { styled  } from '@mui/system';
 import customFetch from '../utils/customFetch';
+import { useEffect, useState } from 'react';
 
 
 
@@ -35,6 +34,76 @@ const AddOtherDetails = () => {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const isSubmitting = navigation.state === 'submitting';
+  const [jeea,setJeea] = useState(null);
+  const [formData, setFormData] = useState({
+    name_in_hindi: '',
+    marital_status: '',
+    kashmiri_immigrant: '',
+    identification_mark: '', 
+    extra_curricular_activities: '',
+    other_relevent_info: '',
+    favourite_past_time: '', 
+    hobbies: '',
+    jee_advanced_rank: '', 
+    jee_advanced_category_rank: '', 
+    bank_name_of_student: '',
+    account_no_of_student: '', 
+    confirm_account_no_of_student: '',
+    ifsc_code_of_student: ''
+});
+
+useEffect(() => {
+  const fetchJeea = async () => {
+    try {
+      const email = localStorage.getItem("user_email");
+      const response = await customFetch.get('/jeeas/' + email);
+      const data = response.data; 
+      console.log("Fetched jeea: ",data);// Assuming the response is in JSON format
+      setJeea(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  fetchJeea();
+}, []);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const email = localStorage.getItem("user_email");
+      const response = await customFetch.get('/temp-other-details/' + email);
+      const data = response.data; 
+      console.log("Fetched data: ",data);// Assuming the response is in JSON format
+      setFormData(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  fetchData();
+}, []); 
+
+
+const goBack = async (event) => {
+  event.preventDefault();
+  try {
+    navigate('/AddParentDetails');
+  } catch (error) {
+    toast.error(error?.response?.data?.msg);
+  }
+};
+
+
+const handleChange = (event) => {
+  const { name, value, type, files } = event.target;
+  const newValue = type === 'file' ? files[0] : value;
+  console.log(newValue);
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: newValue,
+  }));
+};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -56,12 +125,33 @@ const AddOtherDetails = () => {
         <StyledTitle variant="h4">Other Details</StyledTitle>
         
         <Grid container spacing={2}>
+        {Object.entries(jeea).map(([key, value]) => {
+            if (['admission_based_on','course_code','course','branch'].includes(key)) {
+              return (
+                <Grid item xs={6} key={key}>
+                  <TextField
+                    type="text"
+                    name={key}
+                    label={key.replace(/_/g, ' ')}
+                    value={value}
+                    fullWidth
+                    margin="normal"
+                    onChange={handleChange}
+                    disabled={key !== 'blood_group' && key !== 'religion' ? true : false}
+                  />
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })}
           <Grid item xs={6}>
             <StyledTextField
               type="text"
               name="name_in_hindi"
               label="Name in Hindi"
-              defaultValue="आर्यन"
+              value={formData.name_in_hindi}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -71,7 +161,8 @@ const AddOtherDetails = () => {
               <Typography variant="subtitle1">Marital Status</Typography>
               <Select
                 name="marital_status"
-                defaultValue="Unmarried"
+                value={formData.marital_status}
+                onChange={handleChange}
                 fullWidth
                 margin="normal"
               >
@@ -86,7 +177,8 @@ const AddOtherDetails = () => {
               <Typography variant="subtitle1">Kashmiri Immigrant</Typography>
               <Select
                 name="kashmiri_immigrant"
-                defaultValue="No"
+                value={formData.kashmiri_immigrant}
+                onChange={handleChange}
                 fullWidth
                 margin="normal"
               >
@@ -100,7 +192,8 @@ const AddOtherDetails = () => {
               type="text"
               name="identification_mark"
               label="Identification Mark"
-              defaultValue="Mole on left cheek"
+              value={formData.identification_mark}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -110,7 +203,8 @@ const AddOtherDetails = () => {
               type="text"
               name="extra_curricular_activities"
               label="Extra Curricular Activities"
-              defaultValue="Debating, Drama"
+              value={formData.extra_curricular_activities}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -118,9 +212,10 @@ const AddOtherDetails = () => {
           <Grid item xs={6}>
             <StyledTextField
               type="text"
-              name="other_relevant_info"
+              name="other_relevent_info"
               label="Other Relevant Info"
-              defaultValue="Participated in state-level science fair"
+              value={formData.other_relevent_info}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -128,9 +223,10 @@ const AddOtherDetails = () => {
           <Grid item xs={6}>
             <StyledTextField
               type="text"
-              name="favorite_past_time"
+              name="favourite_past_time"
               label="Favorite Past Time"
-              defaultValue="Reading books"
+              value={formData.favourite_past_time}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -140,17 +236,19 @@ const AddOtherDetails = () => {
               type="text"
               name="hobbies"
               label="Hobbies"
-              defaultValue="Photography, Swimming"
+              value={formData.hobbies}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
           </Grid>
-          <Grid item xs={6}>
+          {/* <Grid item xs={6}>
             <StyledTextField
               type="text"
               name="admission_based_on"
               label="Admission based on"
-              defaultValue="Jee Advanced"
+              value={formData.admission_based_on}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -160,7 +258,8 @@ const AddOtherDetails = () => {
               type="text"
               name="course_code"
               label="Course Code"
-              defaultValue="C345"
+              value={formData.course_code}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -170,7 +269,8 @@ const AddOtherDetails = () => {
               type="text"
               name="course"
               label="Course"
-              defaultValue="b.tech"
+              value={formData.course}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -180,17 +280,19 @@ const AddOtherDetails = () => {
               type="text"
               name="branch"
               label="Branch"
-              defaultValue="Cse"
+              value={formData.branch}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={6}>
             <StyledTextField
               type="number"
               name="jee_advanced_rank"
               label="JEE Advanced Rank"
-              defaultValue="1234"
+              value={formData.jee_advanced_rank}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -200,7 +302,8 @@ const AddOtherDetails = () => {
               type="number"
               name="jee_advanced_category_rank"
               label="JEE Advanced Category Rank"
-              defaultValue="56"
+              value={formData.jee_advanced_category_rank}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -210,7 +313,8 @@ const AddOtherDetails = () => {
               type="text"
               name="bank_name_of_student"
               label="Bank Name of Student"
-              defaultValue="State Bank of India"
+              value={formData.bank_name_of_student}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -220,7 +324,8 @@ const AddOtherDetails = () => {
               type="number"
               name="account_no_of_student"
               label="Account Number of Student"
-              defaultValue="1234567890"
+              value={formData.account_no_of_student}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -230,7 +335,8 @@ const AddOtherDetails = () => {
               type="number"
               name="confirm_account_no_of_student"
               label="Confirm Account Number of Student"
-              defaultValue="1234567890"
+              value={formData.confirm_account_no_of_student}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -240,15 +346,20 @@ const AddOtherDetails = () => {
               type="text"
               name="ifsc_code_of_student"
               label="IFSC Code of Student"
-              defaultValue="SBIN0001234"
+              value={formData.ifsc_code_of_student}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
           </Grid>
+
         </Grid>
 
         <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? 'Submitting...' : 'Save and Next'}
+        </Button>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
         </Button>
       </StyledForm>
     </Wrapper>

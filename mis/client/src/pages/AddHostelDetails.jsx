@@ -45,6 +45,15 @@ const AddHostelDetails = () => {
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
+  const goBack = async (event) => {
+    event.preventDefault();
+    try {
+      navigate('/AddParentDetails');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -115,7 +124,10 @@ const AddHostelDetails = () => {
         </Grid>
         
         <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? 'Submitting...' : 'Save and Next'}
+        </Button>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
         </Button>
       </StyledForm>
     </Wrapper>

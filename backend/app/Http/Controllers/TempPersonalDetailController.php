@@ -29,7 +29,7 @@ class TempPersonalDetailController extends Controller
     public function update(Request $request)
     {
         // Log::debug("Inside Controller");
-        // Log::debug($request);
+        Log::debug($request);
 
         $formFields = $request->validate([
             'aadhar_number' => 'required|integer|digits:12',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Temp_other_details;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TempOtherDetailController extends Controller
 {
@@ -26,6 +27,7 @@ class TempOtherDetailController extends Controller
 
     public function update(Request $request)
     {
+        Log::debug($request);
         $request->validate([
             'name_in_hindi' => 'required|string|max:255', // Limit length
             'marital_status' => 'required|string',
@@ -40,7 +42,7 @@ class TempOtherDetailController extends Controller
             'bank_name_of_student' => 'required|string',
             'account_no_of_student' => 'required|integer|digits_between:8,18', 
             'confirm_account_no_of_student' => 'required|same:account_no_of_student',
-            'ifsc_code_of_student' => 'required|regex:/^[A-Z]{4}0[A-Z0-9]{6}$/', // Typical IFSC code format
+            'ifsc_code_of_student' => 'required|string', // Typical IFSC code format
         ]);
 
         // $user = Auth::user(); 

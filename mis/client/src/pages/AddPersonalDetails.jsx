@@ -30,6 +30,7 @@ const AddPersonalDetails = () => {
   const navigate = useNavigate();
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
+  const [jeea,setJeea] = useState(null);
   const [formData, setFormData] = useState({
     jee_main_application_no: '',
     institute_name: '',
@@ -53,6 +54,7 @@ const AddPersonalDetails = () => {
     country: '',
     state: '',
     city: '',
+    nationality: '',
     pincode: '',
     permanent_address_line_1: '',
     permanent_address_line_2: '',
@@ -62,8 +64,9 @@ const AddPersonalDetails = () => {
     const fetchData = async () => {
       try {
         const email = localStorage.getItem("user_email");
-        const response = await customFetch.get('/temp-cca-ecas/' + email);
-        const data = response.data; // Assuming the response is in JSON format
+        const response = await customFetch.get('/temp-personal-details/' + email);
+        const data = response.data; 
+        console.log("Fetched data: ",data);// Assuming the response is in JSON format
         setFormData(data);
       } catch (error) {
         toast.error(error.message);
@@ -73,33 +76,47 @@ const AddPersonalDetails = () => {
     fetchData();
   }, []); // Empty dependency array to run only once on component mount
 
+  useEffect(() => {
+    const fetchJeea = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/jeeas/' + email);
+        const data = response.data; 
+        console.log("Fetched jeea: ",Object.entries(data));// Assuming the response is in JSON format
+        setJeea(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchJeea();
+  }, []);
+
+  const goBack = async (event) => {
+    event.preventDefault();
+    try {
+      navigate('/AddParentDetails');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   const handleChange = (event) => {
     const { name, value, type, files } = event.target;
     const newValue = type === 'file' ? files[0] : value;
+    console.log(newValue);
     setFormData((prevData) => ({
       ...prevData,
       [name]: newValue,
     }));
   };
 
-  // const [selectedPhoto, setSelectedPhoto] = useState(null); // For uploaded_photo
-  // const [selectedSignature, setSelectedSignature] = useState(null);
-
-
-  // const handleFileChange1 = (event) => {
-  //   setSelectedPhoto(event.target.files[0]);
-  //   console.log(selectedPhoto);
-  // };
-
-  // const handleFileChange2 = (event) => {
-  //   setSelectedSignature(event.target.files[0]);
-  //   console.log(selectedSignature);
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    formData.append("college_email",localStorage.getItem("user_email"));
+    // const formData = new FormData(event.target);
+    formData["college_email"]=localStorage.getItem("user_email");
+    // formData.append("college_email",localStorage.getItem("user_email"));
     console.log(formData);
     // const data = Object.fromEntries(formData);
     // console.log(data);
@@ -119,7 +136,7 @@ const AddPersonalDetails = () => {
       <StyledForm onSubmit={handleSubmit} encType='multipart/form-data'>
         <StyledTitle variant="h4">Personal Details</StyledTitle>
         <Grid container spacing={2}>
-          {Object.entries(formData).map(([key, value]) => {
+          {Object.entries(jeea).map(([key, value]) => {
             if (['jee_main_application_no', 'institute_name', 'first_name', 'middle_name', 'last_name', 'email', 'contact_no', 'category', 'allocated_category', 'date_of_birth', 'gender', 'preparatory', 'divyang'].includes(key)) {
               return (
                 <Grid item xs={6} key={key}>
@@ -140,155 +157,170 @@ const AddPersonalDetails = () => {
             }
           })}
           <Grid item xs={6}>
-            <TextField
-              type="number"
-              name="aadhar_number"
-              label="Aadhar Number"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="country"
-              label="Country"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="state"
-              label="State"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="city"
-              label="City"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="number"
-              name="pincode"
-              label="Pincode"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="permanent_address_line_1"
-              label="Permanent Address Line 1"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="permanent_address_line_2"
-              label="Permanent Address Line 2"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="subtitle1">Blood Group</Typography>
-            <Select
-              name="blood_group"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-              value={formData.blood_group}
-            >
-              <MenuItem value="A+">A+</MenuItem>
-              <MenuItem value="B+">B+</MenuItem>
-              <MenuItem value="AB+">AB+</MenuItem>
-              <MenuItem value="O+">O+</MenuItem>
-              <MenuItem value="O-">O-</MenuItem>
-              <MenuItem value="A-">A-</MenuItem>
-              <MenuItem value="B-">B-</MenuItem>
-              <MenuItem value="AB-">AB-</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="subtitle1">Religion</Typography>
-            <Select
-              name="religion"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-              value={formData.religion}
-            >
-              <MenuItem value="HINDU">HINDU</MenuItem>
-              <MenuItem value="MUSLIM">MUSLIM</MenuItem>
-              <MenuItem value="CHRISTIAN">CHRISTIAN</MenuItem>
-              <MenuItem value="SIKH">SIKH</MenuItem>
-              <MenuItem value="BAUDDHIST">BAUDDHIST</MenuItem>
-              <MenuItem value="JAIN">JAIN</MenuItem>
-              <MenuItem value="PARSI">PARSI</MenuItem>
-              <MenuItem value="YAHUDI">YAHUDI</MenuItem>
-              <MenuItem value="OTHERS">OTHERS</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="text"
-              name="birth_place"
-              label="Birth Place"
-              fullWidth
-              margin="normal"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="file"
-              name="uploaded_photo"
-              fullWidth
-              margin="normal"
-              sx={{ display: 'block' }}
-              InputLabelProps={{ shrink: true }}
-              label="Uploaded photo"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              type="file"
-              name="uploaded_signature"
-              fullWidth
-              margin="normal"
-              sx={{ display: 'block' }}
-              InputLabelProps={{ shrink: true }}
-              label="Uploaded signature"
-              onChange={handleChange}
-            />
-          </Grid>
+                <TextField
+                    type="number"
+                    name="aadhar_number"
+                    label="Aadhar Number"
+                    fullWidth
+                    value={formData.aadhar_number || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="country"
+                    label="Country"
+                    fullWidth
+                    value={formData.country || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="state"
+                    label="State"
+                    fullWidth
+                    value={formData.state || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="city"
+                    label="City"
+                    fullWidth
+                    value={formData.city || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="number"
+                    name="pincode"
+                    label="Pincode"
+                    fullWidth
+                    value={formData.pincode || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="permanent_address_line_1"
+                    label="Permanent Address Line 1"
+                    fullWidth
+                    value={formData.permanent_address_line_1 || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="permanent_address_line_2"
+                    label="Permanent Address Line 2"
+                    fullWidth
+                    value={formData.permanent_address_line_2 || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <Typography variant="subtitle1">Blood Group</Typography>
+                <Select
+                    name="blood_group"
+                    fullWidth
+                    margin="normal"
+                    onChange={handleChange}
+                    value={formData.blood_group || ''} 
+                >
+                    <MenuItem value="A+">A+</MenuItem>
+                    <MenuItem value="B+">B+</MenuItem>
+                    <MenuItem value="AB+">AB+</MenuItem>
+                    <MenuItem value="O+">O+</MenuItem>
+                    <MenuItem value="O-">O-</MenuItem>
+                    <MenuItem value="A-">A-</MenuItem>
+                    <MenuItem value="B-">B-</MenuItem>
+                    <MenuItem value="AB-">AB-</MenuItem>
+                </Select>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography variant="subtitle1">Religion</Typography>
+                <Select
+                    name="religion"
+                    fullWidth
+                    margin="normal"
+                    onChange={handleChange}
+                    value={formData.religion || ''} 
+                >
+                    <MenuItem value="HINDU">HINDU</MenuItem>
+                    {/* ... other menu items ... */}
+                </Select>
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="birth_place"
+                    label="Birth Place"
+                    fullWidth
+                    value={formData.birth_place || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="text"
+                    name="nationality"
+                    label="Nationality"
+                    fullWidth
+                    value={formData.nationality || ''} 
+                    margin="normal"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="file"
+                    name="uploaded_photo"
+                    fullWidth
+                    margin="normal"
+                    sx={{ display: 'block' }}
+                    InputLabelProps={{ shrink: true }}
+                    label="Uploaded photo"
+                    onChange={handleChange}
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    type="file"
+                    name="uploaded_signature"
+                    fullWidth
+                    margin="normal"
+                    sx={{ display: 'block' }}
+                    InputLabelProps={{ shrink: true }}
+                    label="Uploaded signature"
+                    onChange={handleChange}
+                />
+            </Grid>
         {/* </Grid> */}
           
         </Grid>
         
 
         <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? 'Submitting...' : 'Save and Next'}
+        </Button>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
         </Button>
       </StyledForm>
     </Wrapper>

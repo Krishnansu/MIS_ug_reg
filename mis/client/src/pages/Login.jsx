@@ -105,5 +105,5 @@ const Login = () => {
     </Wrapper>
   );
 };
-}
+
 export default Login
