@@ -1,4 +1,3 @@
-// import React from 'react';
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
@@ -7,14 +6,19 @@ import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
 import { useEffect, useState } from 'react';
 
-
-
 const StyledForm = styled(Form)({
   maxWidth: '1300px',
   margin: '0 auto',
   padding: '20px',
   border: '1px solid #ccc',
   borderRadius: '8px',
+});
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
 });
 
 const StyledSelectWrapper = styled('div')({
@@ -28,87 +32,97 @@ const StyledTitle = styled(Typography)({
 
 const StyledTextField = styled(TextField)({
   marginBottom: '20px',
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
+});
+
+const CustomButton = styled(Button)({
+  backgroundColor: 'rgb(145, 85, 253)', // Background color
+  width: '150px', // Reduced width
 });
 
 const AddOtherDetails = () => {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const isSubmitting = navigation.state === 'submitting';
-  const [jeea,setJeea] = useState(null);
+  const [jeea, setJeea] = useState(null);
   const [formData, setFormData] = useState({
     name_in_hindi: '',
     marital_status: '',
     kashmiri_immigrant: '',
-    identification_mark: '', 
+    identification_mark: '',
     extra_curricular_activities: '',
     other_relevent_info: '',
-    favourite_past_time: '', 
+    favourite_past_time: '',
     hobbies: '',
-    jee_advanced_rank: '', 
-    jee_advanced_category_rank: '', 
+    jee_advanced_rank: '',
+    jee_advanced_category_rank: '',
     bank_name_of_student: '',
-    account_no_of_student: '', 
+    account_no_of_student: '',
     confirm_account_no_of_student: '',
     ifsc_code_of_student: ''
-});
+  });
 
-useEffect(() => {
-  const fetchJeea = async () => {
+  useEffect(() => {
+    const fetchJeea = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/jeeas/' + email);
+        const data = response.data;
+        console.log("Fetched jeea: ", data);// Assuming the response is in JSON format
+        setJeea(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchJeea();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/temp-other-details/' + email);
+        const data = response.data;
+        console.log("Fetched data: ", data);// Assuming the response is in JSON format
+        setFormData(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  const goBack = async (event) => {
+    event.preventDefault();
     try {
-      const email = localStorage.getItem("user_email");
-      const response = await customFetch.get('/jeeas/' + email);
-      const data = response.data; 
-      console.log("Fetched jeea: ",data);// Assuming the response is in JSON format
-      setJeea(data);
+      navigate('/AddPersonalDetails');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.response?.data?.msg);
     }
   };
 
-  fetchJeea();
-}, []);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const email = localStorage.getItem("user_email");
-      const response = await customFetch.get('/temp-other-details/' + email);
-      const data = response.data; 
-      console.log("Fetched data: ",data);// Assuming the response is in JSON format
-      setFormData(data);
-    } catch (error) {
-      toast.error(error.message);
-    }
+  const handleChange = (event) => {
+    const { name, value, type, files } = event.target;
+    const newValue = type === 'file' ? files[0] : value;
+    console.log(newValue);
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
   };
-
-  fetchData();
-}, []); 
-
-
-const goBack = async (event) => {
-  event.preventDefault();
-  try {
-    navigate('/AddPersonalDetails');
-  } catch (error) {
-    toast.error(error?.response?.data?.msg);
-  }
-};
-
-
-const handleChange = (event) => {
-  const { name, value, type, files } = event.target;
-  const newValue = type === 'file' ? files[0] : value;
-  console.log(newValue);
-  setFormData((prevData) => ({
-    ...prevData,
-    [name]: newValue,
-  }));
-};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("college_email",localStorage.getItem("user_email"));
+    formData.append("college_email", localStorage.getItem("user_email"));
     try {
       await customFetch.post('/temp-other-details', formData);
       console.log(formData);
@@ -123,10 +137,10 @@ const handleChange = (event) => {
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <StyledTitle variant="h4">Other Details</StyledTitle>
-        
+
         <Grid container spacing={2}>
-        {jeea ? Object.entries(jeea).map(([key, value]) => {
-            if (['admission_based_on','course_code','course','branch'].includes(key)) {
+          {jeea ? Object.entries(jeea).map(([key, value]) => {
+            if (['admission_based_on', 'course_code', 'course', 'branch'].includes(key)) {
               return (
                 <Grid item xs={6} key={key}>
                   <TextField
@@ -355,12 +369,18 @@ const handleChange = (event) => {
 
         </Grid>
 
-        <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Save and Next'}
-        </Button>
-        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
-          Back
-        </Button>
+        <Grid container justifyContent="space-between">
+          <Grid item>
+            <CustomButton onClick={goBack} disabled={isSubmitting} variant="contained">
+              Back
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton type="submit" disabled={isSubmitting} variant="contained">
+              {isSubmitting ? 'Submitting...' : 'Save and Next'}
+            </CustomButton>
+          </Grid>
+        </Grid>
       </StyledForm>
     </Wrapper>
   );

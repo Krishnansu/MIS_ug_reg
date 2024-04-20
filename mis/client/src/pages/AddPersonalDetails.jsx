@@ -16,6 +16,20 @@ const StyledForm = styled(Form)({
   borderRadius: '8px',
 });
 
+const CustomButton = styled(Button)({
+  backgroundColor: 'rgb(145, 85, 253)', // Background color
+  width: '150px', // Reduced width
+});
+
+
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
+});
+
 const StyledSelectWrapper = styled('div')({
   marginBottom: '20px',
 });
@@ -142,7 +156,7 @@ const AddPersonalDetails = () => {
             if (['jee_main_application_no', 'institute_name', 'first_name', 'middle_name', 'last_name', 'email', 'contact_no', 'category', 'allocated_category', 'date_of_birth', 'gender', 'preparatory', 'divyang'].includes(key)) {
               return (
                 <Grid item xs={6} key={key}>
-                  <TextField
+                  <CustomTextField
                     type="text"
                     name={key}
                     label={key.replace(/_/g, ' ')}
@@ -159,7 +173,7 @@ const AddPersonalDetails = () => {
             }
           }) : null}
           <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="number"
                     name="aadhar_number"
                     label="Aadhar Number"
@@ -170,7 +184,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="country"
                     label="Country"
@@ -181,7 +195,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="state"
                     label="State"
@@ -192,7 +206,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="city"
                     label="City"
@@ -203,7 +217,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="number"
                     name="pincode"
                     label="Pincode"
@@ -214,7 +228,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="permanent_address_line_1"
                     label="Permanent Address Line 1"
@@ -225,7 +239,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="permanent_address_line_2"
                     label="Permanent Address Line 2"
@@ -268,7 +282,7 @@ const AddPersonalDetails = () => {
                 </Select>
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="birth_place"
                     label="Birth Place"
@@ -279,7 +293,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="text"
                     name="nationality"
                     label="Nationality"
@@ -290,7 +304,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="file"
                     name="uploaded_photo"
                     fullWidth
@@ -302,7 +316,7 @@ const AddPersonalDetails = () => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <TextField
+                <CustomTextField
                     type="file"
                     name="uploaded_signature"
                     fullWidth
@@ -318,12 +332,18 @@ const AddPersonalDetails = () => {
         </Grid>
         
 
-        <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Save and Next'}
-        </Button>
-        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
-          Back
-        </Button>
+        <Grid container justifyContent="space-between">
+          <Grid item>
+            <CustomButton onClick={goBack} disabled={isSubmitting} variant="contained">
+              Back
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton type="submit" disabled={isSubmitting} variant="contained">
+              {isSubmitting ? 'Submitting...' : 'Save and Next'}
+            </CustomButton>
+          </Grid>
+        </Grid>
       </StyledForm>
     </Wrapper>
   );
