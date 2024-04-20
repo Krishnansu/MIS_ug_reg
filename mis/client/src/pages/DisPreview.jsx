@@ -4,6 +4,13 @@ import { Typography, Grid, TextField, Paper, Container } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
 
+const CustomTextField = styled(TextField)({
+  '& .MuiInputBase-root': {
+    border: `2px solid rgb(145, 85, 253)`, 
+    borderRadius: '4px', 
+  },
+});
+
 const StyledContainer = styled(Paper)({
   padding: '20px',
   marginBottom: '20px',

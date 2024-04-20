@@ -1,5 +1,5 @@
 import  { useState, useEffect } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/system';
@@ -20,6 +20,10 @@ const StyledTitle = styled(Typography)({
 });
 
 const DisFeeDetails= () => {
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+  console.log(navigation);
+  const isSubmitting = navigation.state === 'submitting';
   const [formData, setFormData] = useState({
     fee_amount: '',
     fee_date: '',
@@ -42,10 +46,18 @@ const DisFeeDetails= () => {
     fetchData();
   }, []);
 
+  const goBack = async (event) => {
+    event.preventDefault();
+    try {
+      navigate('/AddCcaEca');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Do something with the form data if needed
       toast.success('Form submitted successfully');
     } catch (error) {
       toast.error('Failed to submit form');
@@ -101,9 +113,12 @@ const DisFeeDetails= () => {
           />
         </Grid>
       </Grid>
-      <Button type="submit" variant="contained" disabled>
-        Submit
-      </Button>
+      <Button type="submit" disabled={isSubmitting} variant="contained">
+          {isSubmitting ? 'Submitting...' : 'Save and Next'}
+        </Button>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
+        </Button>
     </StyledForm>
   );
 };
