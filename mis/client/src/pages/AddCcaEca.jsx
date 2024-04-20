@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Grid, TextField, Paper, Button, Select, MenuItem } from '@mui/material';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
+import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
+import { toast } from 'react-toastify';
+import { Button, TextField, Typography, Grid, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
+import { useEffect, useState } from 'react';
 
-const StyledContainer = styled(Paper)({
+
+const StyledForm = styled(Form)({
+  maxWidth: '1300px',
+  margin: '0 auto',
   padding: '20px',
-  marginBottom: '20px',
-  maxWidth: '1100px', // Adjust the maximum width as per your preference
-  margin: 'auto', // Center the container horizontally
   border: '1px solid #ccc',
   borderRadius: '8px',
+});
+
+const CustomButton = styled(Button)({
+  backgroundColor: 'rgb(145, 85, 253)', // Background color
+  width: '150px', // Reduced width
 });
 
 const StyledSelectWrapper = styled('div')({
@@ -18,29 +26,12 @@ const StyledSelectWrapper = styled('div')({
 
 const StyledGrid = styled(Grid)({
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
+  flexDirection: 'row',
 });
 
 const StyledGridItem = styled(Grid)({
   marginBottom: '20px',
-  width: '100%', // Set the grid item width to 100% to take full width
-});
-
-// Custom styled TextField component with only border color modified
-const CustomTextField = styled(TextField)({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: 'rgb(145, 85, 253)', // Border color
-    },
-  },
-});
-
-// Custom styled Button component with background color modified
-const CustomButton = styled(Button)({
-  backgroundColor: 'rgb(145, 85, 253)', // Background color
-  width: '150px', // Reduced width
+  width: '50%',
 });
 
 const AddCcaEca = () => {
@@ -64,16 +55,18 @@ const AddCcaEca = () => {
 });
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const email = localStorage.getItem("user_email");
-        const response = await customFetch.get('/temp-cca-ecas/' + email);
-        setFormData(response.data);
-      } catch (error) {
-        console.error('Error fetching CCA ECA data:', error);
-      }
-    };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const email = localStorage.getItem("user_email");
+      const response = await customFetch.get('/temp-cca-ecas/' + email);
+      const data = response.data; 
+      console.log("Fetched data: ",data);
+      setFormData(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   fetchData();
 }, []); 
@@ -226,10 +219,13 @@ const handleChange = (event) => {
 
       toast.success('CCA/ECA Details Saved');
       navigate('/AddPersonalDetails'); 
+
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
   };
+
+
 
   return (
     <Wrapper>
@@ -317,8 +313,18 @@ const handleChange = (event) => {
               </StyledSelectWrapper>
             </Grid>
         </Grid>
-
+        <Grid item xs={12} style={{ textAlign: 'right' }}>
+          <CustomButton type="submit" variant="contained">
+            Save and Next
+          </CustomButton>
+        </Grid>
+        {/* <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
+        </Button> */}
+      </StyledForm>
+    </Wrapper>
   );
 };
 
 export default AddCcaEca;
+
