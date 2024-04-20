@@ -59,7 +59,7 @@ useEffect(() => {
 useEffect(() => {
   const fetchSports = async () => {
     try {
-      const response = await customFetch.get('/sports-caa-seats/');
+      const response = await customFetch.get('/sports-caa-seats');
       const data = response.data; 
       console.log("Fetched jeea: ",Object.entries(data));// Assuming the response is in JSON format
       setSports(data);
@@ -70,6 +70,16 @@ useEffect(() => {
 
   fetchSports();
 }, []);
+
+const handleChange = (event) => {
+  const { name, value, type, files } = event.target;
+  const newValue = type === 'file' ? files[0] : value;
+  console.log(newValue);
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: newValue,
+  }));
+};
 
   // const goBack = async (event) => {
   //   event.preventDefault();
@@ -95,21 +105,10 @@ useEffect(() => {
     }
   };
 
-  const handleFetch = async (event) => {
-    event.preventDefault();
-    try {
-      console.log("Clicked");
-      // await customFetch.post('/temp-cca-ecas', formData);
-      
-    } catch (error) {
-      // toast.error(error?.response?.data?.msg);
-    }
-  };
+
 
   return (
     <Wrapper>
-    <h1>Hey</h1>
-    <button onClick={handleFetch}>Hey</button>
       <StyledForm onSubmit={handleSubmit}>
         <Typography variant="h4">Add CCA ECA</Typography>
         <Grid container spacing={2}>
@@ -118,7 +117,8 @@ useEffect(() => {
               type="text"
               name="cca_sports"
               label="CCA Sports"
-              defaultValue="cricket"
+              value={formData.cca_sports}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -128,7 +128,8 @@ useEffect(() => {
               type="text"
               name="eca_sports"
               label="ECA Sports"
-              defaultValue="eca_sports"
+              value={formData.eca_sports}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -138,7 +139,8 @@ useEffect(() => {
               type="text"
               name="major_game"
               label="Major Game"
-              defaultValue="major_game"
+              value={formData.major_game}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -148,7 +150,8 @@ useEffect(() => {
               type="text"
               name="minor_game"
               label="Minor Game"
-              defaultValue="minor_game"
+              value={formData.minor_game}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
