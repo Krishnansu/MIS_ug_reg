@@ -1,32 +1,12 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Typography, Grid, Button, TextField, Paper, Container } from '@mui/material';
+import { Typography, Grid, TextField, Paper, Container } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
 
 const StyledContainer = styled(Paper)({
   padding: '20px',
   marginBottom: '20px',
-});
-
-const StyledForm = styled('div')({
-  width: '100%',
-  maxWidth: '800px', // Adjust this value as needed
-  margin: '0 auto',
-  padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
-});
-
-const StyledTitle = styled(Typography)({
-  fontSize: '24px',
-  marginBottom: '20px',
-});
-
-const StyledKeyValue = styled(Typography)({
-  borderBottom: '1px solid #ccc',
-  paddingBottom: '10px',
-  marginBottom: '10px',
 });
 
 const UserProfile = () => {
@@ -90,10 +70,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.ccaEcaData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -104,10 +88,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.personalDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -118,10 +106,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.otherDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -132,10 +124,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.parentDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -146,10 +142,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.educationDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -160,10 +160,14 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
             <Grid item xs={12} key={key}>
-              <StyledKeyValue>
-                <Typography variant="subtitle1">{key}:</Typography>
-                <Typography variant="body1">{value}</Typography>
-              </StyledKeyValue>
+              <TextField
+                type="text"
+                label={key}
+                value={value}
+                fullWidth
+                margin="normal"
+                disabled
+              />
             </Grid>
           ))}
         </Grid>
@@ -195,9 +199,6 @@ const UserProfile = () => {
             />
           </Grid>
         </Grid>
-        <Button variant="contained" disabled>
-          Submit
-        </Button>
       </StyledContainer>
 
       <StyledContainer>
@@ -248,9 +249,6 @@ const UserProfile = () => {
             />
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained" disabled>
-          Submit
-        </Button>
       </StyledContainer>
     </Container>
   );
