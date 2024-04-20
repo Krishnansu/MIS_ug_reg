@@ -43,17 +43,17 @@ const UserProfile = () => {
         const feeResponse = await customFetch.get('/jeeas/' + email);
 
         setUserData({
-          ccaEcaData: ccaEcaResponse.data,
-          personalDetailsData: personalDetailsResponse.data,
-          otherDetailsData: otherDetailsResponse.data,
-          parentDetailsData: parentDetailsResponse.data,
-          educationDetailsData: educationDetailsResponse.data,
-          hostelDetailsData: hostelDetailsResponse.data,
+          ccaEcaData: excludeId(ccaEcaResponse.data),
+          personalDetailsData: excludeId(personalDetailsResponse.data),
+          otherDetailsData: excludeId(otherDetailsResponse.data),
+          parentDetailsData: excludeId(parentDetailsResponse.data),
+          educationDetailsData: excludeId(educationDetailsResponse.data),
+          hostelDetailsData: excludeId(hostelDetailsResponse.data),
           emailData: {
             email_username: emailResponse.data.email_username,
             email_password: emailResponse.data.email_password,
           },
-          feeData: feeResponse.data,
+          feeData: excludeId(feeResponse.data),
         });
       } catch (error) {
         toast.error(error.message);
@@ -62,6 +62,11 @@ const UserProfile = () => {
 
     fetchData();
   }, []);
+
+  const excludeId = (data) => {
+    const { id, ...rest } = data;
+    return rest;
+  };
 
   return (
     <Container>
