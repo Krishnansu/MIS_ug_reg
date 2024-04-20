@@ -1,5 +1,5 @@
 import  { useState, useEffect } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/system';
@@ -20,6 +20,10 @@ const StyledTitle = styled(Typography)({
 });
 
 const DisIitIsmEmail = () => {
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+  console.log(navigation);
+  const isSubmitting = navigation.state === 'submitting';
   const [emailData, setEmailData] = useState({
     email_username: '',
     email_password: '',
@@ -43,8 +47,26 @@ const DisIitIsmEmail = () => {
     fetchData();
   }, []);
 
+  const goBack = async (event) => {
+    event.preventDefault();
+    try {
+      navigate('/AddCcaEca');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      toast.success('Form submitted successfully');
+    } catch (error) {
+      toast.error('Failed to submit form');
+    }
+  };
+
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit}>
       <StyledTitle variant="h4">Email Details</StyledTitle>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -70,9 +92,12 @@ const DisIitIsmEmail = () => {
           />
         </Grid>
       </Grid>
-      <Button variant="contained" disabled>
-        Submit
-      </Button>
+      <Button type="submit" disabled={isSubmitting} variant="contained">
+          {isSubmitting ? 'Submitting...' : 'Save and Next'}
+        </Button>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
+        </Button>
     </StyledForm>
   );
 };
