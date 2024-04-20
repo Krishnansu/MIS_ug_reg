@@ -1,22 +1,11 @@
-// import React from 'react'
 
-// const AddHostelDetails = () => {
-//   return (
-//     <h1>AddHostelDetails</h1>
-//   )
-// }
-
-// export default AddHostelDetails
-
-
-
-// import React from 'react';
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Select, MenuItem, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
+import { useEffect, useState } from 'react';
 
 const StyledForm = styled(Form)({
   maxWidth: '1300px',
@@ -45,6 +34,29 @@ const AddHostelDetails = () => {
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
+  const [formData, setFormData] = useState({
+    food_habit: '',
+    laptop_details: '',
+    model_no: '', 
+    serial_no: '',
+});
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const email = localStorage.getItem("user_email");
+      const response = await customFetch.get('/temp-hostel-details/' + email);
+      const data = response.data; 
+      console.log("Fetched data: ",data);// Assuming the response is in JSON format
+      setFormData(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  fetchData();
+}, []);
+
   const goBack = async (event) => {
     event.preventDefault();
     try {
@@ -52,6 +64,16 @@ const AddHostelDetails = () => {
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
+  };
+
+  const handleChange = (event) => {
+    const { name, value, type, files } = event.target;
+    const newValue = type === 'file' ? files[0] : value;
+    console.log(newValue);
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
   };
 
   const handleSubmit = async (event) => {
@@ -62,10 +84,9 @@ const AddHostelDetails = () => {
     try {
       await customFetch.post('/temp-hostel-details', formData);
       console.log(formData);
-      toast.success('saved sports');
-      console.log("hey");
-      navigate('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
-      console.log("hey2");
+      toast.success('Hostel Details saved');
+      navigate('/DisIitIsmEmail'); 
+   
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -82,7 +103,8 @@ const AddHostelDetails = () => {
               type="text"
               name="laptop_details"
               label="If Having laptop(Give Details)"
-              defaultValue="Macbook"
+              value={formData.laptop_details}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -92,7 +114,8 @@ const AddHostelDetails = () => {
               type="text"
               name="model_no"
               label="Model No"
-              defaultValue="a2337"
+              value={formData.model_no}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -102,7 +125,8 @@ const AddHostelDetails = () => {
               type="text"
               name="serial_no"
               label="Serial No"
-              defaultValue="72347"
+              value={formData.serial_no}
+              onChange={handleChange}
               fullWidth
               margin="normal"
             />
@@ -112,7 +136,8 @@ const AddHostelDetails = () => {
               <Typography variant="subtitle1">Food Habit</Typography>
               <Select
                 name="food_habit"
-                defaultValue="Non-Veg"
+                value={formData.food_habit}
+                onChange={handleChange}
                 fullWidth
                 margin="normal"
               >

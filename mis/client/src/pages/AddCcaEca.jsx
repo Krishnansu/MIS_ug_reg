@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Button, TextField, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch';
+import { useEffect, useState } from 'react';
 
 
 const StyledForm = styled(Form)({
@@ -30,14 +31,54 @@ const AddCcaEca = () => {
   console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
-  const goBack = async (event) => {
-    event.preventDefault();
+  const [sports,setSports] = useState(null);
+
+  const [formData, setFormData] = useState({
+    cca_sports: '',
+    eca_sports: '',
+    major_game: '', 
+    minor_game: '',
+});
+
+useEffect(() => {
+  const fetchData = async () => {
     try {
-      navigate('/AddParentDetails');
+      const email = localStorage.getItem("user_email");
+      const response = await customFetch.get('/temp-cca-ecas/' + email);
+      const data = response.data; 
+      console.log("Fetched data: ",data);
+      setFormData(data);
     } catch (error) {
-      toast.error(error?.response?.data?.msg);
+      toast.error(error.message);
     }
   };
+
+  fetchData();
+}, []); 
+
+useEffect(() => {
+  const fetchSports = async () => {
+    try {
+      const response = await customFetch.get('/sports-caa-seats/');
+      const data = response.data; 
+      console.log("Fetched jeea: ",Object.entries(data));// Assuming the response is in JSON format
+      setSports(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  fetchSports();
+}, []);
+
+  // const goBack = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     navigate('/AddParentDetails');
+  //   } catch (error) {
+  //     toast.error(error?.response?.data?.msg);
+  //   }
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,10 +87,9 @@ const AddCcaEca = () => {
     try {
       await customFetch.post('/temp-cca-ecas', formData);
       console.log(formData);
-      toast.success('saved sports');
-      console.log("hey");
-      navigate('/AddPersonalDetails'); // Use navigation.navigate instead of redirect
-      console.log("hey2");
+      toast.success('CCA/ECA Details Saved');
+      navigate('/AddPersonalDetails'); 
+
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }

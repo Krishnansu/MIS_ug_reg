@@ -29,7 +29,7 @@ const DisIitIsmEmail = () => {
     const fetchData = async () => {
       try {
         const email = localStorage.getItem("user_email");
-        const response = await customFetch.get('/temp-fee-details/' + email);
+        const response = await customFetch.get('/jeeas/' + email);
         const data = response.data; 
         setEmailData({
           email_username: data.email_username,
