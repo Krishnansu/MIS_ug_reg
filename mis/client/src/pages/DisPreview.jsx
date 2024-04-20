@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Typography, Grid, Button, TextField } from '@mui/material';
+import { Typography, Grid, Button, TextField, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
+
+const StyledContainer = styled(Paper)({
+  padding: '20px',
+  marginBottom: '20px',
+});
 
 const StyledForm = styled('div')({
   width: '100%',
@@ -74,62 +79,74 @@ const UserProfile = () => {
 
   return (
     <div>
-      <Typography variant="h4">CCA ECA Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.ccaEcaData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">CCA ECA Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.ccaEcaData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <Typography variant="h4">Personal Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.personalDetailsData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">Personal Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.personalDetailsData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <Typography variant="h4">Other Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.otherDetailsData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">Other Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.otherDetailsData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <Typography variant="h4">Parent Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.parentDetailsData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">Parent Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.parentDetailsData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <Typography variant="h4">Education Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.educationDetailsData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">Education Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.educationDetailsData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <Typography variant="h4">Hostel Details</Typography>
-      <Grid container spacing={2}>
-        {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
-          <Grid item xs={12} key={key}>
-            <Typography>{key}: {value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      <StyledContainer>
+        <Typography variant="h4">Hostel Details</Typography>
+        <Grid container spacing={2}>
+          {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
+            <Grid item xs={12} key={key}>
+              <Typography>{key}: {value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </StyledContainer>
 
-      <StyledForm>
-        <StyledTitle variant="h4">Email Details</StyledTitle>
+      <StyledContainer>
+        <Typography variant="h4">Email Details</Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -157,10 +174,10 @@ const UserProfile = () => {
         <Button variant="contained" disabled>
           Submit
         </Button>
-      </StyledForm>
+      </StyledContainer>
 
-      <StyledForm>
-        <StyledTitle variant="h4">Fee Details</StyledTitle>
+      <StyledContainer>
+        <Typography variant="h4">Fee Details</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <TextField
@@ -210,7 +227,7 @@ const UserProfile = () => {
         <Button type="submit" variant="contained" disabled>
           Submit
         </Button>
-      </StyledForm>
+      </StyledContainer>
     </div>
   );
 };
