@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Typography, Grid, TextField, Paper, Container } from '@mui/material';
+import { Typography, Grid, TextField, Paper, Container, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 const StyledContainer = styled(Paper)({
   padding: '20px',
@@ -10,6 +11,10 @@ const StyledContainer = styled(Paper)({
 });
 
 const UserProfile = () => {
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+  console.log(navigation);
+  const isSubmitting = navigation.state === 'submitting';
   const [userData, setUserData] = useState({
     ccaEcaData: {},
     personalDetailsData: {},
@@ -28,6 +33,29 @@ const UserProfile = () => {
       transaction_id: '',
     },
   });
+
+  const goBack = async (event) => {
+    event.preventDefault();
+    try {
+      navigate('/DisFeeDetails');
+    } catch (error) {
+      toast.error(error?.response?.data?.msg);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const data={
+        'college_email':localStorage.getItem("user_email")
+      }
+      await customFetch.post('/ug-registrations',data);
+      toast.success('Form submitted successfully');
+      navigate('/');
+    } catch (error) {
+      toast.error('Failed to submit form');
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -251,6 +279,14 @@ const UserProfile = () => {
             />
           </Grid>
         </Grid>
+        <form onSubmit={handleSubmit}>
+          <Button type="submit" disabled={isSubmitting} variant="contained">
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </Button>
+        </form>
+        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+          Back
+        </Button>
       </StyledContainer>
     </Container>
   );

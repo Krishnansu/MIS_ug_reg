@@ -74,6 +74,7 @@ class UgRegsController extends Controller
         // $user = Auth::user(); 
         // $collegeEmail = $user -> registered_email_id;
 
+
         $collegeEmail=$request->college_email;
 
         // Retrieve data from temporary tables 

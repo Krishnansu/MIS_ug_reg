@@ -49,7 +49,7 @@ const DisFeeDetails= () => {
   const goBack = async (event) => {
     event.preventDefault();
     try {
-      navigate('/AddCcaEca');
+      navigate('/DisIitIsmEmail');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -58,7 +58,8 @@ const DisFeeDetails= () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      toast.success('Form submitted successfully');
+      toast.success('Fee Details Saved');
+      navigate('/DisPreview');
     } catch (error) {
       toast.error('Failed to submit form');
     }

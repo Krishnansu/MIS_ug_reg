@@ -50,7 +50,7 @@ const DisIitIsmEmail = () => {
   const goBack = async (event) => {
     event.preventDefault();
     try {
-      navigate('/AddCcaEca');
+      navigate('/AddHostelDetails');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -60,6 +60,7 @@ const DisIitIsmEmail = () => {
     event.preventDefault();
     try {
       toast.success('Form submitted successfully');
+      navigate('/DisFeeDetails');
     } catch (error) {
       toast.error('Failed to submit form');
     }

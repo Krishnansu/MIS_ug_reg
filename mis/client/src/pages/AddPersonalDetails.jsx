@@ -138,7 +138,7 @@ const AddPersonalDetails = () => {
       <StyledForm onSubmit={handleSubmit} encType='multipart/form-data'>
         <StyledTitle variant="h4">Personal Details</StyledTitle>
         <Grid container spacing={2}>
-          {Object.entries(jeea).map(([key, value]) => {
+          {jeea ? Object.entries(jeea).map(([key, value]) => {
             if (['jee_main_application_no', 'institute_name', 'first_name', 'middle_name', 'last_name', 'email', 'contact_no', 'category', 'allocated_category', 'date_of_birth', 'gender', 'preparatory', 'divyang'].includes(key)) {
               return (
                 <Grid item xs={6} key={key}>
@@ -157,7 +157,7 @@ const AddPersonalDetails = () => {
             } else {
               return null;
             }
-          })}
+          }) : null}
           <Grid item xs={6}>
                 <TextField
                     type="number"

@@ -125,7 +125,7 @@ const handleChange = (event) => {
         <StyledTitle variant="h4">Other Details</StyledTitle>
         
         <Grid container spacing={2}>
-        {Object.entries(jeea).map(([key, value]) => {
+        {jeea ? Object.entries(jeea).map(([key, value]) => {
             if (['admission_based_on','course_code','course','branch'].includes(key)) {
               return (
                 <Grid item xs={6} key={key}>
@@ -144,7 +144,7 @@ const handleChange = (event) => {
             } else {
               return null;
             }
-          })}
+          }) : null}
           <Grid item xs={6}>
             <StyledTextField
               type="text"
