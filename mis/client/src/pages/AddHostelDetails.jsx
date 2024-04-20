@@ -1,4 +1,3 @@
-
 import { Form, useNavigate, useNavigation } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import { toast } from 'react-toastify';
@@ -26,36 +25,46 @@ const StyledTitle = styled(Typography)({
 
 const StyledTextField = styled(TextField)({
   marginBottom: '20px',
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
+});
+
+const CustomButton = styled(Button)({
+  backgroundColor: 'rgb(145, 85, 253)', // Background color
+  width: '150px', // Reduced width
+  marginRight: '10px', // Add margin to separate buttons
 });
 
 const AddHostelDetails = () => {
   const navigation = useNavigation();
   const navigate = useNavigate();
-  console.log(navigation);
   const isSubmitting = navigation.state === 'submitting';
 
   const [formData, setFormData] = useState({
     food_habit: '',
     laptop_details: '',
-    model_no: '', 
+    model_no: '',
     serial_no: '',
-});
+  });
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const email = localStorage.getItem("user_email");
-      const response = await customFetch.get('/temp-hostel-details/' + email);
-      const data = response.data; 
-      console.log("Fetched data: ",data);// Assuming the response is in JSON format
-      setFormData(data);
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const email = localStorage.getItem("user_email");
+        const response = await customFetch.get('/temp-hostel-details/' + email);
+        const data = response.data;
+        console.log("Fetched data: ", data); // Assuming the response is in JSON format
+        setFormData(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
   const goBack = async (event) => {
     event.preventDefault();
@@ -79,14 +88,14 @@ useEffect(() => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("college_email",localStorage.getItem("user_email"));
-  
+    formData.append("college_email", localStorage.getItem("user_email"));
+
     try {
       await customFetch.post('/temp-hostel-details', formData);
       console.log(formData);
       toast.success('Hostel Details saved');
-      navigate('/DisIitIsmEmail'); 
-   
+      navigate('/DisIitIsmEmail');
+
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -96,7 +105,7 @@ useEffect(() => {
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
         <StyledTitle variant="h4">Add Hostel Details</StyledTitle>
-        
+
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <StyledTextField
@@ -147,13 +156,19 @@ useEffect(() => {
             </StyledSelectWrapper>
           </Grid>
         </Grid>
-        
-        <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Save and Next'}
-        </Button>
-        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
-          Back
-        </Button>
+
+        <Grid container justifyContent="space-between">
+          <Grid item>
+            <CustomButton onClick={goBack} disabled={isSubmitting} variant="contained">
+              Back
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton type="submit" disabled={isSubmitting} variant="contained">
+              {isSubmitting ? 'Submitting...' : 'Save and Next'}
+            </CustomButton>
+          </Grid>
+        </Grid>
       </StyledForm>
     </Wrapper>
   );

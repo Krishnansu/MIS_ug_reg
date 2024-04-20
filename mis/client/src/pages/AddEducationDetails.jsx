@@ -7,14 +7,36 @@ import customFetch from '../utils/customFetch';
 import { useEffect, useState } from 'react';
 
 const StyledForm = styled(Form)({
-  maxWidth: '1300px',
-  margin: '0 auto',
   padding: '20px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
+  marginBottom: '20px',
+  maxWidth: '1100px', // Adjust the maximum width as per your preference
+  margin: 'auto', // Center the container horizontally
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
+const CustomFileInput = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
+});
 
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgb(145, 85, 253)', // Border color
+    },
+  },
+});
+
+const CustomButton = styled(Button)({
+  backgroundColor: 'rgb(145, 85, 253)', // Background color
+  width: '150px', // Reduced width
+});
 
 const AddEducationDetails = () => {
   const navigation = useNavigation();
@@ -101,7 +123,7 @@ useEffect(() => {
         
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="name_of_examination_10"
               label="Name of Examination 10"
@@ -113,7 +135,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="university_board_10"
               label="University Board 10"
@@ -125,7 +147,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="number"
               name="year_10"
               label="Year 10"
@@ -137,7 +159,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="institution_school_10"
               label="Institution School 10"
@@ -149,7 +171,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="grade_percentage_10"
               label="Grade Percentage 10"
@@ -161,7 +183,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="division_10"
               label="Division 10"
@@ -173,7 +195,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="major_subjects_10"
               label="Major Subjects 10"
@@ -186,7 +208,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomFileInput
               type="file"
               name="uploaded_marksheet_10"
               fullWidth
@@ -198,7 +220,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomFileInput
               type="file"
               name="uploaded_certificate_10"
               fullWidth
@@ -209,7 +231,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="name_of_examination_12"
               label="Name of Examination 12"
@@ -221,7 +243,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="university_board_12"
               label="University Board 12"
@@ -233,7 +255,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="number"
               name="year_12"
               label="Year 12"
@@ -245,7 +267,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="institution_school_12"
               label="Institution School 12"
@@ -257,7 +279,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="grade_percentage_12"
               label="Grade Percentage 12"
@@ -269,7 +291,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="division_12"
               label="Division 12"
@@ -281,7 +303,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="major_subjects_12"
               label="Major Subjects 12"
@@ -294,7 +316,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
               name="migration_certificate_no"
               label="Migration Certificate No"
@@ -306,7 +328,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomFileInput
               type="file"
               name="uploaded_marksheet_12"
               fullWidth
@@ -318,7 +340,7 @@ useEffect(() => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomFileInput
               type="file"
               name="uploaded_certificate_12"
               fullWidth
@@ -332,12 +354,18 @@ useEffect(() => {
           {/* Add other fields similarly */}
         </Grid>
         
-        <Button type="submit" disabled={isSubmitting} variant="contained">
-          {isSubmitting ? 'Submitting...' : 'Save and Next'}
-        </Button>
-        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
-          Back
-        </Button>
+        <Grid container justifyContent="space-between">
+          <Grid item>
+            <CustomButton onClick={goBack} disabled={isSubmitting} variant="contained">
+              Back
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton type="submit" disabled={isSubmitting} variant="contained">
+              {isSubmitting ? 'Submitting...' : 'Save and Next'}
+            </CustomButton>
+          </Grid>
+        </Grid>
       </StyledForm>
     </Wrapper>
   );
