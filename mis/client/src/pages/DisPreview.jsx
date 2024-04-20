@@ -69,7 +69,7 @@ const UserProfile = () => {
         <Typography variant="h4">CCA ECA Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.ccaEcaData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -87,7 +87,7 @@ const UserProfile = () => {
         <Typography variant="h4">Personal Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.personalDetailsData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -105,7 +105,7 @@ const UserProfile = () => {
         <Typography variant="h4">Other Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.otherDetailsData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -123,7 +123,7 @@ const UserProfile = () => {
         <Typography variant="h4">Parent Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.parentDetailsData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -141,7 +141,7 @@ const UserProfile = () => {
         <Typography variant="h4">Education Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.educationDetailsData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -159,7 +159,7 @@ const UserProfile = () => {
         <Typography variant="h4">Hostel Details</Typography>
         <Grid container spacing={2}>
           {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
-            <Grid item xs={12} key={key}>
+            <Grid item xs={6} key={key}>
               <TextField
                 type="text"
                 label={key}
@@ -176,10 +176,9 @@ const UserProfile = () => {
       <StyledContainer>
         <Typography variant="h4">Email Details</Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               type="text"
-              name="email_username"
               label="Email Username"
               value={userData.emailData.email_username}
               fullWidth
@@ -187,10 +186,9 @@ const UserProfile = () => {
               disabled
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               type="text"
-              name="email_password"
               label="Email Password"
               value={userData.emailData.email_password}
               fullWidth
@@ -207,7 +205,6 @@ const UserProfile = () => {
           <Grid item xs={6}>
             <TextField
               type="text"
-              name="fee_amount"
               label="Fee Amount"
               value={userData.feeData.fee_amount}
               fullWidth
@@ -218,7 +215,6 @@ const UserProfile = () => {
           <Grid item xs={6}>
             <TextField
               type="text"
-              name="fee_date"
               label="Fee Date"
               value={userData.feeData.fee_date}
               fullWidth
@@ -229,7 +225,6 @@ const UserProfile = () => {
           <Grid item xs={6}>
             <TextField
               type="text"
-              name="fee_mode"
               label="Fee Mode"
               value={userData.feeData.fee_mode}
               fullWidth
@@ -240,7 +235,6 @@ const UserProfile = () => {
           <Grid item xs={6}>
             <TextField
               type="text"
-              name="transaction_id"
               label="Transaction ID"
               value={userData.feeData.transaction_id}
               fullWidth
