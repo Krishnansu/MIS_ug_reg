@@ -72,7 +72,7 @@ const handleChange = (event) => {
 const goBack = async (event) => {
   event.preventDefault();
   try {
-    navigate('/AddParentDetails');
+    navigate('/AddOtherDetails');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
   }

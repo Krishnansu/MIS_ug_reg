@@ -117,9 +117,9 @@ const AddCcaEca = () => {
         <Button type="submit" disabled={isSubmitting} variant="contained">
           {isSubmitting ? 'Submitting...' : 'Save and Next'}
         </Button>
-        <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
+        {/* <Button onClick={goBack}  disabled={isSubmitting} variant="contained">
           Back
-        </Button>
+        </Button> */}
       </StyledForm>
     </Wrapper>
   );

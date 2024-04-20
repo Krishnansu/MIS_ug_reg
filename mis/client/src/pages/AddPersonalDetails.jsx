@@ -66,7 +66,7 @@ const AddPersonalDetails = () => {
         const email = localStorage.getItem("user_email");
         const response = await customFetch.get('/temp-personal-details/' + email);
         const data = response.data; 
-        console.log("Fetched data: ",data);// Assuming the response is in JSON format
+        console.log("Fetched data: ",data);
         setFormData(data);
       } catch (error) {
         toast.error(error.message);
@@ -74,7 +74,7 @@ const AddPersonalDetails = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array to run only once on component mount
+  }, []); 
 
   useEffect(() => {
     const fetchJeea = async () => {
@@ -95,7 +95,7 @@ const AddPersonalDetails = () => {
   const goBack = async (event) => {
     event.preventDefault();
     try {
-      navigate('/AddParentDetails');
+      navigate('/AddCcaEca');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }

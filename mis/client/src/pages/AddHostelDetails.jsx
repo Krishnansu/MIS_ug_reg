@@ -48,7 +48,7 @@ const AddHostelDetails = () => {
   const goBack = async (event) => {
     event.preventDefault();
     try {
-      navigate('/AddParentDetails');
+      navigate('/AddEducationDetails');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
@@ -74,7 +74,7 @@ const AddHostelDetails = () => {
   return (
     <Wrapper>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledTitle variant="h4">Add CCA ECA</StyledTitle>
+        <StyledTitle variant="h4">Add Hostel Details</StyledTitle>
         
         <Grid container spacing={2}>
           <Grid item xs={6}>

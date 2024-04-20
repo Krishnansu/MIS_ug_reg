@@ -88,7 +88,7 @@ useEffect(() => {
 const goBack = async (event) => {
   event.preventDefault();
   try {
-    navigate('/AddParentDetails');
+    navigate('/AddPersonalDetails');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
   }
