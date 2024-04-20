@@ -4,10 +4,11 @@ import { Typography, Grid, TextField, Paper, Container } from '@mui/material';
 import { styled } from '@mui/system';
 import customFetch from '../utils/customFetch'; // Import your custom fetch library
 
+// Custom styled TextField component with border color
 const CustomTextField = styled(TextField)({
   '& .MuiInputBase-root': {
-    border: `2px solid rgb(145, 85, 253)`, 
-    borderRadius: '4px', 
+    border: `2px solid rgb(145, 85, 253)`, // Border color
+    borderRadius: '4px', // Border radius
   },
 });
 
@@ -85,7 +86,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.ccaEcaData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -103,7 +104,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.personalDetailsData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -121,7 +122,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.otherDetailsData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -139,7 +140,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.parentDetailsData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -157,7 +158,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.educationDetailsData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -175,7 +176,7 @@ const UserProfile = () => {
         <Grid container spacing={2}>
           {Object.entries(userData.hostelDetailsData).map(([key, value]) => (
             <Grid item xs={6} key={key}>
-              <TextField
+              <CustomTextField
                 type="text"
                 label={key}
                 value={value}
@@ -192,8 +193,9 @@ const UserProfile = () => {
         <Typography variant="h4">Email Details</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="email_username"
               label="Email Username"
               value={userData.emailData.email_username}
               fullWidth
@@ -202,8 +204,9 @@ const UserProfile = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="email_password"
               label="Email Password"
               value={userData.emailData.email_password}
               fullWidth
@@ -218,8 +221,9 @@ const UserProfile = () => {
         <Typography variant="h4">Fee Details</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="fee_amount"
               label="Fee Amount"
               value={userData.feeData.fee_amount}
               fullWidth
@@ -228,8 +232,9 @@ const UserProfile = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="fee_date"
               label="Fee Date"
               value={userData.feeData.fee_date}
               fullWidth
@@ -238,8 +243,9 @@ const UserProfile = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="fee_mode"
               label="Fee Mode"
               value={userData.feeData.fee_mode}
               fullWidth
@@ -248,8 +254,9 @@ const UserProfile = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <CustomTextField
               type="text"
+              name="transaction_id"
               label="Transaction ID"
               value={userData.feeData.transaction_id}
               fullWidth
