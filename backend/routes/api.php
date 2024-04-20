@@ -13,74 +13,49 @@ use App\Http\Controllers\UgRegsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
 
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::post('/logout', [LoginController::class, 'logout']);
-
-// Jeea Records with auth middleware
-// Route::middleware('auth')->group(function () {       
+     
     Route::get('/jeeas/{email}', [JeeaController::class, 'show']);
-        
-// });
 
-// Route::middleware('auth')->group(function () {
     Route::get('/sports-caa-seats', [SportsCaaQuotaSeatsStockController::class, 'index']);
     Route::post('/sports-caa-seats/{id}/decrement', [SportsCaaQuotaSeatsStockController::class, 'decrementSeatCount']);
-// });
 
+    Route::get('/sports-caa-seats/id', [SportsCaaQuotaSeatsStockController::class, 'fetchSeats']);
+    Route::get('/sports-caa-seats/distinct-caa-sub-categories', [SportsCaaQuotaSeatsStockController::class, 'fetchDistinctCaaSubCategories']);
+    Route::get('/sports-caa-seats/names/nso/major', [SportsCaaQuotaSeatsStockController::class, 'fetchNamesForNsoMajor']);
+    Route::get('/sports-caa-seats/names/nso/minor', [SportsCaaQuotaSeatsStockController::class, 'fetchNamesForNsoMinor']);
+    Route::get('/sports-caa-seats/names/eca', [SportsCaaQuotaSeatsStockController::class, 'fetchNamesForECA']);
 
-
-// CCA/ECA Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-cca-ecas/{email}', [TempCcaEcaController::class, 'show']);
     Route::post('/temp-cca-ecas', [TempCcaEcaController::class, 'update']);
     Route::delete('/temp-cca-ecas/{email}', [TempCcaEcaController::class, 'destroy']);
-// });
 
-// Personal Details Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-personal-details/{email}', [TempPersonalDetailController::class, 'show']);
     Route::post('/temp-personal-details', [TempPersonalDetailController::class, 'update']);
     Route::delete('/temp-personal-details/{email}', [TempPersonalDetailController::class, 'destroy']);
-// });
 
-// Other Details Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-other-details/{email}', [TempOtherDetailController::class, 'show']);
     Route::post('/temp-other-details', [TempOtherDetailController::class, 'update']);
     Route::delete('/temp-other-details/{email}', [TempOtherDetailController::class, 'destroy']);
-// });
 
-// Parent Details Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-parent-details/{email}', [TempParentDetailController::class, 'show']);
     Route::post('/temp-parent-details', [TempParentDetailController::class, 'update']);
     Route::delete('/temp-parent-details/{email}', [TempParentDetailController::class, 'destroy']);
-// });
 
-// Education Details Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-education-details/{email}', [TempEducationDetailController::class, 'show']);
     Route::post('/temp-education-details', [TempEducationDetailController::class, 'update']);
     Route::delete('/temp-education-details/{email}', [TempEducationDetailController::class, 'destroy']);
-// });
 
-// Hostel Details Records with auth middleware
-// Route::middleware('auth')->group(function () {
     Route::get('/temp-hostel-details/{email}', [TempHostelDetailController::class, 'show']);
     Route::post('/temp-hostel-details', [TempHostelDetailController::class, 'update']);
     Route::delete('/temp-hostel-details/{email}', [TempHostelDetailController::class, 'destroy']);
-// });
 
     Route::get('/preview/{email}', [UgRegsController::class, 'preview']);
-    
-// Route::middleware('auth')->group(function () {
     Route::get('/ug-registrations/{email}', [UgRegsController::class, 'show']); 
     Route::post('/ug-registrations', [UgRegsController::class, 'store']);
 
 
-// });
+
