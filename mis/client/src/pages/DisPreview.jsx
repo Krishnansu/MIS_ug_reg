@@ -43,17 +43,17 @@ const UserProfile = () => {
         const feeResponse = await customFetch.get('/jeeas/' + email);
 
         setUserData({
-          ccaEcaData: excludeId(ccaEcaResponse.data),
-          personalDetailsData: excludeId(personalDetailsResponse.data),
-          otherDetailsData: excludeId(otherDetailsResponse.data),
-          parentDetailsData: excludeId(parentDetailsResponse.data),
-          educationDetailsData: excludeId(educationDetailsResponse.data),
-          hostelDetailsData: excludeId(hostelDetailsResponse.data),
+          ccaEcaData: excludeFields(ccaEcaResponse.data, ['created_at', 'updated_at']),
+          personalDetailsData: excludeFields(personalDetailsResponse.data, ['created_at', 'updated_at']),
+          otherDetailsData: excludeFields(otherDetailsResponse.data, ['created_at', 'updated_at']),
+          parentDetailsData: excludeFields(parentDetailsResponse.data, ['created_at', 'updated_at']),
+          educationDetailsData: excludeFields(educationDetailsResponse.data, ['created_at', 'updated_at']),
+          hostelDetailsData: excludeFields(hostelDetailsResponse.data, ['created_at', 'updated_at']),
           emailData: {
             email_username: emailResponse.data.email_username,
             email_password: emailResponse.data.email_password,
           },
-          feeData: excludeId(feeResponse.data),
+          feeData: excludeFields(feeResponse.data, ['created_at', 'updated_at']),
         });
       } catch (error) {
         toast.error(error.message);
@@ -63,9 +63,12 @@ const UserProfile = () => {
     fetchData();
   }, []);
 
-  const excludeId = (data) => {
-    const { id, ...rest } = data;
-    return rest;
+  const excludeFields = (data, fieldsToExclude) => {
+    const filteredData = { ...data };
+    fieldsToExclude.forEach(field => {
+      delete filteredData[field];
+    });
+    return filteredData;
   };
 
   return (
